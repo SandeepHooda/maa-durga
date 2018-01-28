@@ -1,18 +1,19 @@
 package vo;
 
-public class Product {
-	private String hsn;
+import java.io.Serializable;
+
+public class Product  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String productHsn;
 	private int cgst;// center gst rate
 	private int sgst;// State Gst rate
 	private int igst;//integrated gst rate
 	private int cess;//addition cess
-	private String desc;//Product description
-	public String getHsn() {
-		return hsn;
-	}
-	public void setHsn(String hsn) {
-		this.hsn = hsn;
-	}
+	private String productDesc;//Product description
+	
 	public int getCgst() {
 		return cgst;
 	}
@@ -37,12 +38,20 @@ public class Product {
 	public void setCess(int cess) {
 		this.cess = cess;
 	}
-	public String getDesc() {
-		return desc;
+	public String getProductDesc() {
+		return productDesc;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setProductDesc(String productDesc) {
+		this.productDesc = productDesc;
 	}
+	public String getProductHsn() {
+		return productHsn;
+	}
+	public void setProductHsn(String productHsn) {
+		this.productHsn = productHsn;
+	}
+	
+	
 	
 
 }

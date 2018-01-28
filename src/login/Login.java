@@ -1,6 +1,8 @@
 package login;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import db.MangoDB;
+import vo.Inventory;
+import vo.Product;
 import vo.Registration;
 
 /**
@@ -33,7 +37,7 @@ public class Login extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userID = request.getParameter("userID");
 		String pwd = request.getParameter("pwd");
 		Registration registrationDetails = (Registration)request.getSession().getAttribute("registrationDetails");
@@ -44,6 +48,7 @@ public class Login extends HttpServlet {
 		}
 		
 		if (null != registrationDetails && registrationDetails.getPwd().equals(pwd)){
+			populateInventoryGstRates(registrationDetails);
 			request.getSession().setAttribute("registrationDetails",registrationDetails );
 			response.getWriter().append(userID);
 		}else {
@@ -52,12 +57,20 @@ public class Login extends HttpServlet {
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void populateInventoryGstRates(Registration registrationDetails){
+		Map<String, Product> productGstRates = new HashMap<String, Product>();
+		for (Product product: registrationDetails.getProducts()){
+			productGstRates.put(product.getProductHsn(), product);
+		}
 		
-		doGet(request, response);
+		for (Inventory inventory: registrationDetails.getInventory()){
+			Product product = productGstRates.get(inventory.getHsn());
+			inventory.setCess(product.getCess());
+			inventory.setCgst(product.getCgst());
+			inventory.setSgst(product.getSgst());
+			inventory.setIgst(product.getIgst());
+			inventory.setProductDesc(product.getProductDesc());
+		}
 	}
 
 }

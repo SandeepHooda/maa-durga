@@ -1,8 +1,14 @@
 package vo;
 
-public class Inventory {
+import java.io.Serializable;
+
+public class Inventory  extends Product implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String hsn;
-	private String desc;
+	private String inventoryDesc;
 	private String modelNo;
 	private int purchasePriceWithoutTax;
 	private int salesPriceAmazonWithoutTax;
@@ -13,12 +19,7 @@ public class Inventory {
 	public void setHsn(String hsn) {
 		this.hsn = hsn;
 	}
-	public String getDesc() {
-		return desc;
-	}
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
+	
 	public String getModelNo() {
 		return modelNo;
 	}
@@ -42,6 +43,12 @@ public class Inventory {
 	}
 	public void setSalesPriceRegularWithoutTax(int salesPriceRegularWithoutTax) {
 		this.salesPriceRegularWithoutTax = salesPriceRegularWithoutTax;
+	}
+	public String getInventoryDesc() {
+		return inventoryDesc;
+	}
+	public void setInventoryDesc(String inventoryDesc) {
+		this.inventoryDesc = inventoryDesc;
 	}
 
 }

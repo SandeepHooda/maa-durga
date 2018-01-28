@@ -34,10 +34,24 @@
 	</div>
 
 	<!-- Sales details -->
-	<div id="salesFormData" name="salesFormData">
-	</div>
-	<div id="salesForm" name="salesForm">
 	
+	<div id="salesForm" name="salesForm">
+	<table class="loginPage" >
+		<tr>
+		 	<td> <B>Customer Name: </B></td> <td> <input type="text" name="customerName" id="customerName"/></td> 
+		 </tr>
+		 <tr>
+		 	 <td> <B>Address:</B></td> <td>  <textarea rows="6" cols="30" name="shippingAddress" id="shippingAddress"></textarea></td> 
+		  </tr>
+		  	<td> <B>State:</B></td> <td> <select id="shippingState" name="shippingState" onchange="saveFavouriteStateCode()"></select></td>
+		  <tr>
+		  <td></td>
+		  	<td > <input type="submit" value="Submit" onclick="login()"> </td> 
+		  </tr>
+		  <tr>
+		  	<td colspan="2" name="loginStatus" id="loginStatus"> <span > </td> 
+		  </tr>
+	</table>
 	</div>
 </body>
 </html>

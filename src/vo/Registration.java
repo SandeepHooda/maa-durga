@@ -1,8 +1,13 @@
 package vo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Registration {
+public class Registration implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String _id; //ID for mango db
 	private String regID; //Unique ID to identify person
 	private String userID;//userID associated with a GST ID. with one to one mapping.
