@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sales invoice</title>
 <link rel="stylesheet" href="web/css/styles.css">
 <script src="web/js/index.js"></script>
@@ -11,23 +13,31 @@
 	<div id="login" name="login">
 	<table class="loginPage" >
 		<tr>
-		 	<td> <B>User Name: </B></td> <td> <input type="text" name="userName" id="userName"><br></td> 
+		 	<td> <B>User Name: </B></td> <td> <input type="text" name="userName" id="userName"/></td> 
 		 </tr>
 		 <tr>
-		 	 <td> <B>Password:</B></td> <td>  <input type="password" name="pwd" id="pwd"><br></td> 
+		 	 <td> <B>Password:</B></td> <td>  <input type="password" name="pwd" id="pwd" onkeyup="showPassword()"/></td> 
+		  </tr>
+		  <tr>
+		 	 <td><span onmousedown="toggleShowPassword()"><B>Show Password:</B></span><input type="checkbox" name="showPasswordCheckBox" id="showPasswordCheckBox" onchange="showPassword()" /> </td> 
+		 	 <td>  <span name="showPasswordSpan" id="showPasswordSpan"></span></td> 
 		  </tr>
 		  <tr>
 		  <td></td>
 		  	<td > <input type="submit" value="Submit" onclick="login()"> </td> 
 		  </tr>
+		  <tr>
+		  	<td colspan="2" name="loginStatus" id="loginStatus"> <span > </td> 
+		  </tr>
 	</table>
+	
 	</div>
 
 	<!-- Sales details -->
 	<div id="salesFormData" name="salesFormData">
 	</div>
 	<div id="salesForm" name="salesForm">
-	salesForm
+	
 	</div>
 </body>
 </html>

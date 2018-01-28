@@ -1,0 +1,85 @@
+package vo;
+
+import java.util.List;
+
+public class Registration {
+	private String _id; //ID for mango db
+	private String regID; //Unique ID to identify person
+	private String userID;//userID associated with a GST ID. with one to one mapping.
+	private String pwd;//Password for the above user id 
+	private String GSTIN;// GST ID
+	private String bName;//Business name
+	private String state;//indian state code
+	private String pan;
+	private int invoiceStart;// Start no of invoice
+	
+	private List<Product> products;
+	private List<Inventory> inventory;
+	public String get_id() {
+		return _id;
+	}
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+	public String getRegID() {
+		return regID;
+	}
+	public void setRegID(String regID) {
+		this.regID = regID;
+	}
+	public String getUserID() {
+		return userID;
+	}
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+	public String getPwd() {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+	public String getGSTIN() {
+		return GSTIN;
+	}
+	public void setGSTIN(String gSTIN) {
+		GSTIN = gSTIN;
+	}
+	public String getbName() {
+		return bName;
+	}
+	public void setbName(String bName) {
+		this.bName = bName;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getPan() {
+		return pan;
+	}
+	public void setPan(String pan) {
+		this.pan = pan;
+	}
+	public int getInvoiceStart() {
+		return invoiceStart;
+	}
+	public void setInvoiceStart(int invoiceStart) {
+		this.invoiceStart = invoiceStart;
+	}
+	public List<Product> getProducts() {
+		return products;
+	}
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+	public List<Inventory> getInventory() {
+		return inventory;
+	}
+	public void setInventory(List<Inventory> inventory) {
+		this.inventory = inventory;
+	}
+
+}
