@@ -41,17 +41,28 @@
 		 	<td> <B>Customer Name: </B></td> <td> <input type="text" name="customerName" id="customerName"/></td> 
 		 </tr>
 		 <tr>
-		 	 <td> <B>Address:</B></td> <td>  <textarea rows="6" cols="30" name="shippingAddress" id="shippingAddress"></textarea></td> 
+		 	 <td> <B>Shipping Address:</B></td> <td>  <textarea rows="6" cols="30" name="shippingAddress" id="shippingAddress"></textarea></td> 
 		  </tr>
 		  	<td> <B>State:</B></td> <td> <select id="shippingState" name="shippingState" onchange="saveFavouriteStateCode()"></select></td>
 		  <tr>
+		  </tr>
+		  	<td > <B>Item:</B> </td> <td> <select id="inventoryItems" name="inventoryItems" onchange="itemSelected()"></select></td> 
+		  <tr>
+		   </tr>
+		  	<td > <B>Qty:</B> </td> <td> <input type="text" name="quantity" id="quantity" value="1"/></td> 
+		  <tr>
+		   </tr>
+		  	<td > <B>Price:</B> </td> <td> <input type="text" name="price" id="price"/></td> 
+		  <tr>
 		  <td></td>
-		  	<td > <input type="submit" value="Submit" onclick="login()"> </td> 
+		  	<td > <input type="submit" value="Add" onclick="addToCart()"> </td> 
 		  </tr>
 		  <tr>
 		  	<td colspan="2" name="loginStatus" id="loginStatus"> <span > </td> 
 		  </tr>
 	</table>
+	<div id="cart" name="cart">
+	</div>
 	</div>
 </body>
 </html>

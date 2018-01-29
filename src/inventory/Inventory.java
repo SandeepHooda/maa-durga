@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import db.MangoDB;
+import login.StatesCodes;
+import vo.InventortWithStateCodes;
 import vo.Registration;
 
 /**
@@ -33,9 +35,14 @@ public class Inventory extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Registration registrationDetails = (Registration)request.getSession().getAttribute("registrationDetails");
 		if (null != registrationDetails){
+			InventortWithStateCodes inventortWithStateCodes = new InventortWithStateCodes();
+			inventortWithStateCodes.setStateCodes(StatesCodes.stateCodes);
+			
+			inventortWithStateCodes.setMyGstStateCode(registrationDetails.getGSTIN().substring(0,2));
+			inventortWithStateCodes.setInventoryItems(registrationDetails.getInventory());
 			Gson  json = new Gson();
 			response.addHeader("Cache-Control", "max-age=86400");//1 day
-			response.getWriter().append(json.toJson(registrationDetails.getInventory()));
+			response.getWriter().append(json.toJson(inventortWithStateCodes));
 		}else {
 			response.getWriter().append("");
 		}

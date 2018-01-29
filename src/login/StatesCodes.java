@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 @WebServlet("/StatesCodes")
 public class StatesCodes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static List<String> stateCodes;
+	public static List<String> stateCodes;
 	
     /**
      * @see HttpServlet#HttpServlet()
