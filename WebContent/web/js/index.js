@@ -166,6 +166,66 @@ function publishCartItems(){
 	document.getElementById("cart").innerHTML = cartItemsHtml;
 	
 }
+let maxColumnsInInvoiceGrid = 11;
+function clearManualCartRow(rowItem){
+	for (let j=0;j<maxColumnsInInvoiceGrid-1;j++){
+		 document.getElementById("manualCartItem"+rowItem+j).value = "";
+	}
+}
+function toggleManualGrid(){
+	manualGridVisibility = localStorage.getItem("manualGridVisibility");
+	if ("on" == manualGridVisibility){
+		document.getElementById("cartManualDiv").style = "display: none;"
+		localStorage.setItem("manualGridVisibility", "off");
+	}else {
+		localStorage.setItem("manualGridVisibility", "on");
+		document.getElementById("cartManualDiv").style = "display: block;"
+	}
+}
+function generateManualCart(){
+	let cartItemsHtml = "<table class='grid' border='1' >";
+	cartItemsHtml += "<tr class='gridLargeCol'> <th> Item  </th><th> HSN  </th> <th> Quantity </th> <th> Rate </th> <th class='gridSmallCol'> Taxable Value </th>" +
+	"<th> CGST </th><th> SGST </th><th> IGST </th><th> CESS </th><th> Total </th>" +
+			"<th> Remove </th></tr>";
+	for (let i=0;i<10;i++){
+		cartItemsHtml += "<tr>";
+		
+		for (let j=0; j<maxColumnsInInvoiceGrid; j++){
+			cartItemsHtml += " <td";
+			if (j==0){
+				cartItemsHtml +=" class='gridLargeCol' >"	; 
+			}else {
+				cartItemsHtml +=" class='gridSmallInputbox' >";	 
+			}
+			if (j == maxColumnsInInvoiceGrid-1){
+				cartItemsHtml += "<span onclick=clearManualCartRow('"+i+"') class='bigIconRed'>&#x2718;</span></td>";
+			}else {
+				cartItemsHtml += " <input  ";
+				if (j==0){
+					cartItemsHtml += "  class='gridLargeCol' ";
+				}else {
+					cartItemsHtml += "   class='gridSmallInputbox' ";
+				}
+				cartItemsHtml += " type='text' name='manualCartItem"+i+j+"' id='manualCartItem"+i+j+"' />	 </td>";
+				
+			}
+			
+		}
+		
+	}
+	cartItemsHtml += "</table>";
+	manualGridVisibility = localStorage.getItem("manualGridVisibility");
+	document.getElementById("cartManualDiv").innerHTML = cartItemsHtml;
+	if ("on" == manualGridVisibility){
+		document.getElementById("cartManualDiv").style = "display: block;"
+	}else {
+		document.getElementById("cartManualDiv").style = "display: none;"
+		
+	}
+	
+	
+}
+
 function pupulateStateCodes(stateCodesArray){
 	let shippingState = document.getElementById("shippingState");
 	
@@ -202,6 +262,7 @@ function postLogin(){
 	fetchInventory();
 }
 function onBodyLoad(){
+	generateManualCart();
 	let userID = localStorage.getItem("userID");
 	
 	//Show login form only when user is logged out

@@ -9,14 +9,27 @@
 }
 .gridLargeCol{
 	width: 150px;
+	height: 60px;
 }
 .gridSmallCol{
 	width: 50px;
+}
+.gridSmallInputbox{
+	width: 50px;
+	height: 60px;
 }
 .bigIcon{
 	font-size: 20px;
 	border-radius: 25px;
     background: #73AD21;
+    padding: 20px; 
+    width: 200px;
+    height: 30px; 
+}
+.bigIconRed{
+	font-size: 20px;
+	border-radius: 25px;
+    background: #ff0000;
     padding: 20px; 
     width: 200px;
     height: 30px; 
