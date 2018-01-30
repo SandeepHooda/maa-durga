@@ -1,4 +1,11 @@
 
+let myGstStateCode = "";
+let pleaseSelect = "Please select";
+let shippingStateCode = "";
+let myCart = [];
+let myCartManual = [];
+let maxColumnsInInvoiceGrid = 11;//don't change this else in manual grid all mataematic operation slike calc tax and total ect wil disturb
+let maxRowsInInvoiceGrid = 10;
 
 function loginWithUserIDAndPwd(userID , pwd){
 	let xhr = null;
@@ -51,7 +58,7 @@ function toggleShowPassword(){
 	document.getElementById("showPasswordCheckBox").checked = !document.getElementById("showPasswordCheckBox").checked;
 	 showPassword();
 }
-let myGstStateCode = "";
+
 function fetchInventory(){
 	let xhr = null;
 	if (window.XMLHttpRequest) {
@@ -79,9 +86,7 @@ function fetchInventory(){
 	xhr.open("GET", "/Inventory", true);
 	xhr.send();
 }
-let pleaseSelect = "Please select";
-let shippingStateCode = "";
-let myCart = [];
+
 function saveFavouriteStateCode(){
 	
 	let shippingState = document.getElementById("shippingState");
@@ -166,11 +171,49 @@ function publishCartItems(){
 	document.getElementById("cart").innerHTML = cartItemsHtml;
 	
 }
-let maxColumnsInInvoiceGrid = 11;
+
 function clearManualCartRow(rowItem){
-	for (let j=0;j<maxColumnsInInvoiceGrid-1;j++){
-		 document.getElementById("manualCartItem"+rowItem+j).value = "";
+	var response = confirm("Delete item?");
+	if (response == true) {
+		for (let j=0;j<maxColumnsInInvoiceGrid-1;j++){
+			 document.getElementById("manualCartItem"+rowItem+j).value = "";
+		}
+	} else {
+	    
 	}
+	
+}
+function calcManualCartRowTotal(rowItem){
+	let rowObject = {};
+	rowObject.item =  document.getElementById("manualCartItem"+rowItem+0).value;
+	rowObject.hsn =  document.getElementById("manualCartItem"+rowItem+1).value;
+	rowObject.quantity =  document.getElementById("manualCartItem"+rowItem+2).value;
+	rowObject.rate =  document.getElementById("manualCartItem"+rowItem+3).value;
+	
+		rowObject.taxablevalue = rowObject.quantity * rowObject.rate;
+		if (rowObject.item && !isNaN(rowObject.taxablevalue) && rowObject.taxablevalue >0 ){
+			 document.getElementById("manualCartItem"+rowItem+4).innerHTML = rowObject.taxablevalue ;
+			 rowObject.cgstApplied = document.getElementById("manualCartItem"+rowItem+5).value * rowObject.taxablevalue/100;
+			 rowObject.sgstApplied = document.getElementById("manualCartItem"+rowItem+6).value * rowObject.taxablevalue/100;
+			 rowObject.igstApplied = document.getElementById("manualCartItem"+rowItem+7).value * rowObject.taxablevalue/100;
+			 rowObject.cessApplied = document.getElementById("manualCartItem"+rowItem+8).value * rowObject.taxablevalue/100;
+			 rowObject.rowTotal =  rowObject.taxablevalue +rowObject.cgstApplied+rowObject.sgstApplied+rowObject.igstApplied+rowObject.cessApplied;
+			 document.getElementById("manualCartItem"+rowItem+9).innerHTML =rowObject.rowTotal.toFixed(2);
+			 if (!isNaN(rowObject.rowTotal)){
+				 return rowObject;
+			 }
+			 
+		}else {
+			 document.getElementById("manualCartItem"+rowItem+4).innerHTML = "";
+			 document.getElementById("manualCartItem"+rowItem+9).innerHTML = "";
+			 return null;
+			 
+		}
+			
+		
+		
+		
+	
 }
 function toggleManualGrid(){
 	manualGridVisibility = localStorage.getItem("manualGridVisibility");
@@ -185,9 +228,9 @@ function toggleManualGrid(){
 function generateManualCart(){
 	let cartItemsHtml = "<table class='grid' border='1' >";
 	cartItemsHtml += "<tr class='gridLargeCol'> <th> Item  </th><th> HSN  </th> <th> Quantity </th> <th> Rate </th> <th class='gridSmallCol'> Taxable Value </th>" +
-	"<th> CGST </th><th> SGST </th><th> IGST </th><th> CESS </th><th> Total </th>" +
+	"<th> CGST% </th><th> SGST% </th><th> IGST% </th><th> CESS% </th><th> Total </th>" +
 			"<th> Remove </th></tr>";
-	for (let i=0;i<10;i++){
+	for (let i=0;i<maxRowsInInvoiceGrid;i++){
 		cartItemsHtml += "<tr>";
 		
 		for (let j=0; j<maxColumnsInInvoiceGrid; j++){
@@ -199,14 +242,17 @@ function generateManualCart(){
 			}
 			if (j == maxColumnsInInvoiceGrid-1){
 				cartItemsHtml += "<span onclick=clearManualCartRow('"+i+"') class='bigIconRed'>&#x2718;</span></td>";
-			}else {
+			}else if(j == maxColumnsInInvoiceGrid-2 || j == 4){
+				cartItemsHtml += "<span name='manualCartItem"+i+j+"' id='manualCartItem"+i+j+"' ></span></td>";
+			}
+			else {
 				cartItemsHtml += " <input  ";
 				if (j==0){
 					cartItemsHtml += "  class='gridLargeCol' ";
 				}else {
-					cartItemsHtml += "   class='gridSmallInputbox' ";
+					cartItemsHtml += "  class='gridSmallInputbox' ";
 				}
-				cartItemsHtml += " type='text' name='manualCartItem"+i+j+"' id='manualCartItem"+i+j+"' />	 </td>";
+				cartItemsHtml += " onkeyup='calcManualCartRowTotal("+i+")' type='text' name='manualCartItem"+i+j+"' id='manualCartItem"+i+j+"' />	 </td>";
 				
 			}
 			
@@ -278,3 +324,91 @@ function onBodyLoad(){
 	}
 }
 
+function extractManualCartItems(){
+	for (let i=0;i<maxRowsInInvoiceGrid;i++){
+		let rowObj = calcManualCartRowTotal(i);
+		if (null != rowObj){
+			myCartManual.push(rowObj);
+		}
+	}
+	
+}
+function submitCart(){
+	document.getElementById("submitInvoiceResult").innerHTML = "";
+	extractManualCartItems();
+	let invoiceDetails = {};
+	invoiceDetails.invoiceTime = new Date().getTime();
+	invoiceDetails.myCartManual = myCartManual;
+	invoiceDetails.myCart = myCart;
+	if (invoiceDetails.myCart.length == 0  && invoiceDetails.myCartManual.length == 0 ){
+		document.getElementById("submitInvoiceResult").innerHTML = "<br/></br/></br/><b><span style='color: red;'> Please add details for item sold to invoice before submitting. </span><b>"
+	}else {
+		invoiceDetails.customerName = document.getElementById("customerName").value;
+		invoiceDetails.shippingAddress  = document.getElementById("shippingAddress").value;
+		let shippingState = document.getElementById("shippingState");
+		if ( pleaseSelect != shippingState.options[shippingState.selectedIndex].value){
+			invoiceDetails.shippingState = shippingState.options[shippingState.selectedIndex].value
+		}
+		if (!invoiceDetails.customerName || !invoiceDetails.shippingAddress || !invoiceDetails.shippingState){
+			document.getElementById("submitInvoiceResult").innerHTML = "<br/></br/></br/><b><span style='color: red;'> Customer name, addres and shipping state are mandatory fields. </span><b>";
+		}else {
+			submitInvoice(invoiceDetails)
+		}
+	}
+	
+	
+}
+
+function submitInvoice(invoiceDetails){
+	
+	if ( document.getElementById("submitCartButton").classList.contains('bigIcon') ){
+		document.getElementById("submitCartButton").classList.remove('bigIcon');
+		document.getElementById("submitCartButton").classList.add('bigIconGrey');
+	}else {
+		return;//Call in progress
+	}
+	
+	
+	let xhr = null;
+	if (window.XMLHttpRequest) {
+	    // code for modern browsers
+		xhr = new XMLHttpRequest();
+	 } else {
+	    // code for old IE browsers
+		 xhr = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4 ) {
+			if (this.status == 200){
+				document.getElementById("submitCartButton").classList.toggle('bigIcon');
+				document.getElementById("submitCartButton").classList.toggle('bigIconGrey');
+				alert('Your Invoice no is  '+this.responseText);
+				
+			}else {
+				document.getElementById("submitCartButton").classList.toggle('bigIcon');
+				document.getElementById("submitCartButton").classList.toggle('bigIconGrey');
+				
+				if (401 == xhr.status){//User migh have logged out duw to inactivity
+					let userID = localStorage.getItem("userID");
+					if (userID){
+						loginWithUserIDAndPwd(userID,localStorage.getItem("pwd"));
+						document.getElementById("submitInvoiceResult").innerHTML = "<br/></br/></br/><b><span style='color: red;'> Please resubmit the invoice. </span><b>"
+					}
+				}else {
+					document.getElementById("submitInvoiceResult").innerHTML = "<br/></br/></br/><b><span style='color: red;'> Error while submitting the invoive. Code :"+xhr.status+" </span><b>"
+				}
+				//document.getElementById("loginStatus").innerHTML = "<span>Request failed.  Returned status of " + xhr.status+"</span>";
+				
+			}
+		     
+		   }
+		
+	  
+	  };
+	xhr.open("POST", "/SubmitInvoice", true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	let invoiceDetailsStr = JSON.stringify(invoiceDetails);
+	invoiceDetailsStr = invoiceDetailsStr.replace("\&", "AND");
+	xhr.send("invoiceDetails="+invoiceDetailsStr);
+	
+}

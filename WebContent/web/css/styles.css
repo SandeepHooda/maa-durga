@@ -26,6 +26,14 @@
     width: 200px;
     height: 30px; 
 }
+.bigIconGrey{
+	font-size: 20px;
+	border-radius: 25px;
+    background: #c0c0c0;
+    padding: 20px; 
+    width: 200px;
+    height: 30px; 
+}
 .bigIconRed{
 	font-size: 20px;
 	border-radius: 25px;
@@ -34,7 +42,9 @@
     width: 200px;
     height: 30px; 
 }
-
+.left-140{
+	    padding-left: 140px;
+}
 .smallIcon{
 	font-size: 20px;
 	border-radius: 15px;

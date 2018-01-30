@@ -42,7 +42,7 @@ public class Login extends HttpServlet {
 		String pwd = request.getParameter("pwd");
 		Registration registrationDetails = (Registration)request.getSession().getAttribute("registrationDetails");
 		if (null == registrationDetails){
-			String registrationDetailsJson = MangoDB.getADocument("gst-registration", "maa-durga-electronics", userID, MangoDB.mlabKeySonu);
+			String registrationDetailsJson = MangoDB.getADocument("gst-registration", "gst-registration", userID, MangoDB.mlabKeySonu);
 			Gson  json = new Gson();
 			registrationDetails = json.fromJson(registrationDetailsJson, new TypeToken<Registration>() {}.getType());
 		}

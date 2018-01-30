@@ -36,38 +36,44 @@
 	<!-- Sales details -->
 	
 	<div id="salesForm" name="salesForm">
-	<table class="loginPage" >
-		<tr>
-		 	<td> <B>Customer Name: </B></td> <td> <input type="text" name="customerName" id="customerName"/></td> 
-		 </tr>
-		 <tr>
-		 	 <td> <B>Shipping Address:</B></td> <td>  <textarea rows="6" cols="30" name="shippingAddress" id="shippingAddress"></textarea></td> 
-		  </tr>
-		  	<td> <B>State:</B></td> <td> <select id="shippingState" name="shippingState" onchange="saveFavouriteStateCode()"></select></td>
-		  <tr>
-		  </tr>
-		  	<td > <B>Item:</B> </td> <td> <select id="inventoryItems" name="inventoryItems" onchange="itemSelected()"></select></td> 
-		  <tr>
-		   </tr>
-		  	<td > <B>Qty:</B> </td> <td> <input type="text" name="quantity" id="quantity" value="1"/></td> 
-		  <tr>
-		   </tr>
-		  	<td > <B>Price:</B> </td> <td> <input type="text" name="price" id="price"/></td> 
-		  <tr>
-		  <td></td>
-		  	<td >  <span onclick="addToCart()" class="bigIcon">Add &#x271A;</span></td> 
-		  </tr>
-		  <tr>
-		  	<td colspan="2" name="loginStatus" id="loginStatus"> <span > </td> 
-		  </tr>
-	</table>
-	<div id="cart" name="cart">
-	</div>
-	<span onclick="toggleManualGrid()" class="bigIcon">&#x270D;</span>
-	<br/><br/><br/>
-	<div id="cartManualDiv" name="cartManualDiv">
-	
-	</div>
-	</div>
+		<table class="loginPage" >
+			<tr>
+			 	<td> <B>Customer Name: </B></td> <td> <input type="text" name="customerName" id="customerName"/></td> 
+			 </tr>
+			 <tr>
+			 	 <td> <B>Shipping Address:</B></td> <td>  <textarea rows="6" cols="30" name="shippingAddress" id="shippingAddress"></textarea></td> 
+			  </tr>
+			  	<td> <B>State:</B></td> <td> <select id="shippingState" name="shippingState" onchange="saveFavouriteStateCode()"></select></td>
+			  <tr>
+			  </tr>
+			  	<td > <B>Item:</B> </td> <td> <select id="inventoryItems" name="inventoryItems" onchange="itemSelected()"></select></td> 
+			  <tr>
+			   </tr>
+			  	<td > <B>Qty:</B> </td> <td> <input type="text" name="quantity" id="quantity" value="1"/></td> 
+			  <tr>
+			   </tr>
+			  	<td > <B>Price:</B> </td> <td> <input type="text" name="price" id="price"/></td> 
+			  <tr>
+			  <td></td>
+			  	<td >  <span onclick="addToCart()" class="bigIcon">Add &#x271A;</span></td> 
+			  </tr>
+			  <tr>
+			  	<td colspan="2" name="loginStatus" id="loginStatus"> <span > </td> 
+			  </tr>
+		</table>
+		
+		<div id="cart" name="cart"></div>
+		
+		<br/><br/>
+		<div class="left-140"><span onclick="toggleManualGrid()" class="bigIcon">&#x270D;</span></div>
+		
+		<br/><br/><br/>
+		
+		<div id="cartManualDiv" name="cartManualDiv"></div>
+		
+		<br/></br/>
+		<div class="left-140">	<span id="submitCartButton" name="submitCartButton" onclick="submitCart()" class="bigIcon">Submit &#x2705;</span>	</div>
+		<div id="submitInvoiceResult" name="submitInvoiceResult"></div>
+	</div> <!--  Sales form -->
 </body>
 </html>

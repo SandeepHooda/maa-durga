@@ -12,6 +12,7 @@ public class Registration implements Serializable{
 	private String regID; //Unique ID to identify person
 	private String userID;//userID associated with a GST ID. with one to one mapping.
 	private String pwd;//Password for the above user id 
+	private String mdbInvoiceStore;//DB  name where invoice are found for this user 
 	private String GSTIN;// GST ID
 	private String bName;//Business name
 	private String state;//indian state code
@@ -85,6 +86,12 @@ public class Registration implements Serializable{
 	}
 	public void setInventory(List<Inventory> inventory) {
 		this.inventory = inventory;
+	}
+	public String getMdbInvoiceStore() {
+		return mdbInvoiceStore;
+	}
+	public void setMdbInvoiceStore(String mdbInvoiceStore) {
+		this.mdbInvoiceStore = mdbInvoiceStore;
 	}
 
 }
