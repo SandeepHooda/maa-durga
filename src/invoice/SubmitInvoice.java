@@ -60,7 +60,7 @@ public class SubmitInvoice extends HttpServlet {
 				latestInvoiceNo++;
 			}
 			invoiceDetails.setInvoiceNo(latestInvoiceNo);
-			invoiceDetails.set_id(""+invoiceDetails.getInvoiceTime());
+			invoiceDetails.set_id(""+latestInvoiceNo);
 			
 			Calendar cal = new GregorianCalendar();
 			cal.setTimeInMillis(invoiceDetails.getInvoiceTime());
@@ -70,7 +70,7 @@ public class SubmitInvoice extends HttpServlet {
 				invoiceDetails.set_id(""+invoiceDetails.getInvoiceTime()+i);
 				invoiceDetails.setInvoiceNo(invoiceDetails.getInvoiceNo()+1);
 				MangoDB.createNewCollectionWithData(""+month, registrationDetails.getMdbInvoiceStore()+"-"+year, json.toJson(invoiceDetails, InvoiceDetails.class), MangoDB.mlabKeySonu);
-				
+				http://docs.mlab.com/data-api/#list-documents
 			}*/
 			MangoDB.createNewCollectionWithData(""+month, registrationDetails.getMdbInvoiceStore()+"-"+year, json.toJson(invoiceDetails, InvoiceDetails.class), MangoDB.mlabKeySonu);
 			response.getWriter().append(""+latestInvoiceNo);
