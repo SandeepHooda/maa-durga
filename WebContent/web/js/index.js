@@ -143,16 +143,24 @@ function addToCart(){
 	myCart.push(selectedProduct);
 	publishCartItems();
 }
-
+function deleteFromCart(itemID){
+	var response = confirm("Delete item?");
+	if (response == true) {
+		myCart.splice(itemID, 1);
+		publishCartItems();
+	} else {
+	    
+	}
+}
 function publishCartItems(){
-	let cartItemsHtml = "<table class='loginPage' border='1' >";
-	cartItemsHtml += "<tr> <th> HSN  </th> <th> Quantity </th> <th> Rate </th> <th> Taxable Value </th>" +
-	"<th> CGST </th><th> SGST </th><th> IGST </th><th> CESS </th>" +
-			"<th> Total </th></tr>";
+	let cartItemsHtml = "<table class='grid' border='1' >";
+	cartItemsHtml += "<tr class='gridLargeCol'> <th> Item  </th><th> HSN  </th> <th> Quantity </th> <th> Rate </th> <th class='gridSmallCol'> Taxable Value </th>" +
+	"<th> CGST </th><th> SGST </th><th> IGST </th><th> CESS </th><th> Total </th>" +
+			"<th> Remove </th></tr>";
 	for (let i=0;i<myCart.length;i++){
-		cartItemsHtml += "<tr> <td> "+myCart[i].hsn+"	 </td> <td> "+myCart[i].quantity+" </td> <td> "+myCart[i].rate+" </td> <td> "+myCart[i].taxableValue+" </td>" +
+		cartItemsHtml += "<tr> <td class='gridLargeCol'> "+myCart[i].inventoryDesc +" : "+myCart[i].modelNo+"	 </td> <td> "+myCart[i].hsn+"	 </td> <td> "+myCart[i].quantity+" </td> <td> "+myCart[i].rate+" </td> <td> "+myCart[i].taxableValue+" </td>" +
 				"<td> "+myCart[i].cgstApplied+" @ "+myCart[i].cgst+"% </td><td> "+myCart[i].sgstApplied+" @ "+myCart[i].sgst+"% </td><td> "+myCart[i].igstApplied+" @ "+myCart[i].igst+"% </td><td> "+myCart[i].cessApplied+" @ "+myCart[i].cess+"% </td>" +
-						"<td> "+myCart[i].totalRowAmount+" </td></tr>";
+						"<td> "+myCart[i].totalRowAmount+" </td> <td><span onclick=deleteFromCart('"+i+"') class='smallIcon'>&#x2718;</span></td> </tr>";
 	}
 	cartItemsHtml += "</table>";
 	document.getElementById("cart").innerHTML = cartItemsHtml;

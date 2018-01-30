@@ -1,3 +1,32 @@
 .loginPage{
 	line-height: 3;
 }
+
+.grid{
+	
+	word-wrap: break-word;
+	
+}
+.gridLargeCol{
+	width: 150px;
+}
+.gridSmallCol{
+	width: 50px;
+}
+.bigIcon{
+	font-size: 20px;
+	border-radius: 25px;
+    background: #73AD21;
+    padding: 20px; 
+    width: 200px;
+    height: 30px; 
+}
+
+.smallIcon{
+	font-size: 20px;
+	border-radius: 15px;
+    background: #ff0000;
+    padding: 5px; 
+    width: 100px;
+    height: 50px; 
+}
