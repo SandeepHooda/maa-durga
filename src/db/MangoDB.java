@@ -3,7 +3,9 @@ package db;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.logging.Logger;
 
 
@@ -25,12 +27,14 @@ public class MangoDB {
 	private static FetchOptions lFetchOptions = FetchOptions.Builder.doNotValidateCertificate().setDeadline(300d);
 	private static URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 	
-	public static String getADocument(String dbName, String collection,  String documentKey,String mlabApiKey){
-		String httpsURL  = null;
+	public static String getDocumentWithQuery(String dbName, String collection,  String documentKey,String mlabApiKey, String query){
+		String httpsURL  = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+mlabApiKey;
 		if (null != documentKey){
 			httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+mlabApiKey+"&q=%7B%22_id%22:%22"+documentKey+"%22%7D";
-		}else {
-			httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+mlabApiKey;
+		}
+		
+		if (null != query ){
+			httpsURL +=  query;
 		}
 		
 		String responseStr = "";
@@ -55,7 +59,10 @@ public class MangoDB {
 			 }
 		
 		 return responseStr;
+	}
+	public static String getADocument(String dbName, String collection,  String documentKey,String mlabApiKey){
 		
+		return getDocumentWithQuery(dbName,  collection,  documentKey, mlabApiKey, null);
 		
 	}
 	public static String getData(String db, String collection,  String apiKey ){

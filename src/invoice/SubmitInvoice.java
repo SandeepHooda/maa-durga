@@ -85,7 +85,8 @@ public class SubmitInvoice extends HttpServlet {
 		cal.set(Calendar.DATE, 1); // We need current month and year don't care much about date but when we go back last last month have date as 1 helps
 		int year = cal.get(Calendar.YEAR);
 		int month = 1+cal.get(Calendar.MONTH);
-		String invoicesStr = MangoDB.getADocument(registrationDetails.getMdbInvoiceStore()+"-"+year, ""+month, null, MangoDB.mlabKeySonu);
+		String query = "&s=%7B%22invoiceNo%22:-1%7D&l=1"; // sort by invoice desc and limit 1 record
+		String invoicesStr = MangoDB.getDocumentWithQuery(registrationDetails.getMdbInvoiceStore()+"-"+year, ""+month, null, MangoDB.mlabKeySonu,query);
 		String noDBMessage = "{ \"message\" : \"Database not found.\"}";
 		if ("".equals(invoicesStr) || noDBMessage.equals(invoicesStr)){
 			
@@ -94,30 +95,32 @@ public class SubmitInvoice extends HttpServlet {
 				cal.add(Calendar.MONTH, -1);
 				year = cal.get(Calendar.YEAR);
 				month = 1+cal.get(Calendar.MONTH);
-				invoicesStr = MangoDB.getADocument(registrationDetails.getMdbInvoiceStore()+"-"+year, ""+month, null, MangoDB.mlabKeySonu);
+				invoicesStr = MangoDB.getDocumentWithQuery(registrationDetails.getMdbInvoiceStore()+"-"+year, ""+month, null, MangoDB.mlabKeySonu,query);
 				
 				if (noDBMessage.equals(invoicesStr)){
+					//No data data base created and no data found no need to look beyond
 					return 0L;
 				}else if("".equals(invoicesStr)) {
+					//keep looking in last 12 months till you don't find "no db message"
 					System.out.println(" continue looging previous month");
 				}else {
-					 return getLatestInvoice( invoicesStr).getInvoiceNo();
+					//Data found in last 12 months
+					 return getLatestInvoiceNumber( invoicesStr);
 				}
 			}
 			
 		}else {
-			return getLatestInvoice( invoicesStr).getInvoiceNo();
+			//Data found in current month
+			return getLatestInvoiceNumber( invoicesStr);
 		}
 		
 		return 0L;
 	}
 	
-	private InvoiceDetails getLatestInvoice(String invoicesStr){
+	private long getLatestInvoiceNumber(String invoicesStr){
 		Gson  json = new Gson();
-		List<InvoiceDetails> listOfInvoices= json.fromJson("["+invoicesStr+"]", new TypeToken<List<InvoiceDetails>>() {}.getType());
-		Collections.sort(listOfInvoices, new InvoiceDetailsSort());
-		System.out.println(" latest invoice no "+listOfInvoices.get(0).getInvoiceNo()+" total invoices "+listOfInvoices.size());
-		return listOfInvoices.get(0);
+		InvoiceDetails listOfInvoices= json.fromJson(invoicesStr, new TypeToken<InvoiceDetails>() {}.getType());
+		return listOfInvoices.getInvoiceNo();
 		
 	}
 
