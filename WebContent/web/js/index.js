@@ -306,6 +306,7 @@ function postLogin(){
 	document.getElementById("login").style = "display: none;";
 	document.getElementById("salesForm").style = "display: block;";
 	fetchInventory();
+	getRecentInvoices(10);
 }
 function onBodyLoad(){
 	generateManualCart();
@@ -383,7 +384,7 @@ function submitInvoice(invoiceDetails){
 				document.getElementById("submitCartButton").classList.toggle('bigIcon');
 				document.getElementById("submitCartButton").classList.toggle('bigIconGrey');
 				alert('Your Invoice no is  '+this.responseText);
-				
+				getRecentInvoices(10);
 			}else {
 				document.getElementById("submitCartButton").classList.toggle('bigIcon');
 				document.getElementById("submitCartButton").classList.toggle('bigIconGrey');
@@ -398,7 +399,7 @@ function submitInvoice(invoiceDetails){
 					document.getElementById("submitInvoiceResult").innerHTML = "<br/></br/></br/><b><span style='color: red;'> Error while submitting the invoive. Code :"+xhr.status+" </span><b>"
 				}
 				//document.getElementById("loginStatus").innerHTML = "<span>Request failed.  Returned status of " + xhr.status+"</span>";
-				
+				//window.scrollTo(0,document.body.scrollHeight);
 			}
 		     
 		   }
@@ -412,3 +413,50 @@ function submitInvoice(invoiceDetails){
 	xhr.send("invoiceDetails="+invoiceDetailsStr);
 	
 }
+function showRcentInvoices( rcentInvoices){
+	
+	let html = "<table class='grid' border='1' >";
+	html += "<tr> <th> Invoice No  </th><th> Date  </th> <th> Customer Name </th> </tr>";
+	var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+	for (let i=0;i<rcentInvoices.length;i++){
+		var date = new Date(rcentInvoices[i].invoiceTime);
+		html += "<tr> <td>"+rcentInvoices[i].invoiceNo+"</td><td>"+date.getDate()+"-"+months[date.getMonth()]+"</td><td>"+rcentInvoices[i].customerName+"</td></tr>";
+	}
+	html += "</table>";
+	document.getElementById("recentInvoices").innerHTML = html;
+	location.href = "#";
+	location.href = "#submitCartButton";
+	
+	
+}
+function getRecentInvoices(count){
+	
+	let xhr = null;
+	if (window.XMLHttpRequest) {
+	    // code for modern browsers
+		xhr = new XMLHttpRequest();
+	 } else {
+	    // code for old IE browsers
+		 xhr = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4 ) {
+			if (this.status == 200){
+				let rcentInvoices = JSON.parse(this.responseText);
+				showRcentInvoices(rcentInvoices);
+				//window.scrollTo(0,document.body.scrollHeight);
+			}else {
+				
+				//window.scrollTo(0,document.body.scrollHeight);
+			}
+		     
+		   }
+		
+	  
+	  };
+	xhr.open("GET", "/RecentInvoices?count="+count, true);
+	xhr.send();
+	
+	
+}
+

@@ -2,6 +2,7 @@ package invoice;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -66,12 +67,20 @@ public class SubmitInvoice extends HttpServlet {
 			cal.setTimeInMillis(invoiceDetails.getInvoiceTime());
 			int year = cal.get(Calendar.YEAR);
 			int month = 1+cal.get(Calendar.MONTH);
-			/*for (int i=0;i<1000;i++){
-				invoiceDetails.set_id(""+invoiceDetails.getInvoiceTime()+i);
-				invoiceDetails.setInvoiceNo(invoiceDetails.getInvoiceNo()+1);
-				MangoDB.createNewCollectionWithData(""+month, registrationDetails.getMdbInvoiceStore()+"-"+year, json.toJson(invoiceDetails, InvoiceDetails.class), MangoDB.mlabKeySonu);
-				http://docs.mlab.com/data-api/#list-documents
-			}*/
+			/* This is a test code
+			List<InvoiceDetails> list = new ArrayList<InvoiceDetails>();
+			for (int i=0;i<1100;i++){
+				
+				InvoiceDetails invoiceDetailsNew = new InvoiceDetails();
+				latestInvoiceNo++;
+				invoiceDetailsNew.set_id(""+latestInvoiceNo);
+				invoiceDetailsNew.setInvoiceNo(latestInvoiceNo);
+				list.add(invoiceDetailsNew);
+				
+			}
+			MangoDB.createNewCollectionWithData(""+month, registrationDetails.getMdbInvoiceStore()+"-"+year, json.toJson(list, new TypeToken<List<InvoiceDetails>>() {}.getType()), MangoDB.mlabKeySonu);
+			This is a test code
+			*/
 			MangoDB.createNewCollectionWithData(""+month, registrationDetails.getMdbInvoiceStore()+"-"+year, json.toJson(invoiceDetails, InvoiceDetails.class), MangoDB.mlabKeySonu);
 			response.getWriter().append(""+latestInvoiceNo);
 		}
