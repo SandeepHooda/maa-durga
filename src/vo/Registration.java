@@ -18,6 +18,8 @@ public class Registration implements Serializable{
 	private String state;//indian state code
 	private String pan;
 	private int invoiceStart;// Start no of invoice
+	private String phone;
+	private String email;
 	
 	private List<Product> products;
 	private List<Inventory> inventory;
@@ -92,6 +94,18 @@ public class Registration implements Serializable{
 	}
 	public void setMdbInvoiceStore(String mdbInvoiceStore) {
 		this.mdbInvoiceStore = mdbInvoiceStore;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

@@ -1,6 +1,9 @@
 package vo;
 
+import java.util.Date;
 import java.util.List;
+
+import misc.Utils;
 
 public class InvoiceDetails {
 	private String _id;
@@ -8,9 +11,14 @@ public class InvoiceDetails {
 	private String customerName;
 	private String shippingAddress;
 	private String shippingState;
+	private String customerPhone;
+	private String customerEmail;
 	private List<InvoiceItem> myCartManual;
 	private List<InvoiceItem>  myCart;
 	private long invoiceNo;
+
+	
+	
 	public long getInvoiceTime() {
 		return invoiceTime;
 	}
@@ -58,5 +66,29 @@ public class InvoiceDetails {
 	}
 	public void set_id(String _id) {
 		this._id = _id;
+	}
+	public String getInvoiceDateFormatted() {
+		return Utils.dateFormatDDMonYYYYhm.format(new Date(invoiceTime));
+	}
+	public void setInvoiceDateFormatted(String invoiceDateFormatted) {
+		//this.invoiceDateFormatted = invoiceDateFormatted;
+	}
+	public String getCustomerPhone() {
+		if (null == customerPhone){
+			customerPhone = "";
+		}
+		return customerPhone;
+	}
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
+	public String getCustomerEmail() {
+		if (null == customerEmail){
+			customerEmail = "";
+		}
+		return customerEmail;
+	}
+	public void setCustomerEmail(String customerEmail) {
+		this.customerEmail = customerEmail;
 	}
 }

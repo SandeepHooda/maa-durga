@@ -193,10 +193,14 @@ function calcManualCartRowTotal(rowItem){
 		rowObject.taxablevalue = rowObject.quantity * rowObject.rate;
 		if (rowObject.item && !isNaN(rowObject.taxablevalue) && rowObject.taxablevalue >0 ){
 			 document.getElementById("manualCartItem"+rowItem+4).innerHTML = rowObject.taxablevalue ;
-			 rowObject.cgstApplied = document.getElementById("manualCartItem"+rowItem+5).value * rowObject.taxablevalue/100;
-			 rowObject.sgstApplied = document.getElementById("manualCartItem"+rowItem+6).value * rowObject.taxablevalue/100;
-			 rowObject.igstApplied = document.getElementById("manualCartItem"+rowItem+7).value * rowObject.taxablevalue/100;
-			 rowObject.cessApplied = document.getElementById("manualCartItem"+rowItem+8).value * rowObject.taxablevalue/100;
+			 rowObject.cgst = document.getElementById("manualCartItem"+rowItem+5).value;
+			 rowObject.cgstApplied =  rowObject.cgst * rowObject.taxablevalue/100;
+			 rowObject.sgst =  document.getElementById("manualCartItem"+rowItem+6).value;
+			 rowObject.sgstApplied = rowObject.sgst * rowObject.taxablevalue/100;
+			 rowObject.igst = document.getElementById("manualCartItem"+rowItem+7).value;
+			 rowObject.igstApplied =   rowObject.igst * rowObject.taxablevalue/100;
+			 rowObject.cess = document.getElementById("manualCartItem"+rowItem+8).value;
+			 rowObject.cessApplied = rowObject.cess * rowObject.taxablevalue/100;
 			 rowObject.rowTotal =  rowObject.taxablevalue +rowObject.cgstApplied+rowObject.sgstApplied+rowObject.igstApplied+rowObject.cessApplied;
 			 document.getElementById("manualCartItem"+rowItem+9).innerHTML =rowObject.rowTotal.toFixed(2);
 			 if (!isNaN(rowObject.rowTotal)){
@@ -416,11 +420,13 @@ function submitInvoice(invoiceDetails){
 function showRcentInvoices( rcentInvoices){
 	
 	let html = "<table class='grid' border='1' >";
-	html += "<tr> <th> Invoice No  </th><th> Date  </th> <th> Customer Name </th> </tr>";
+	html += "<tr> <th> Invoice No  </th><th> Date  </th> <th> Customer Name </th> <th>Print</th> <th>Email</th> </tr>";
 	var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 	for (let i=0;i<rcentInvoices.length;i++){
 		var date = new Date(rcentInvoices[i].invoiceTime);
-		html += "<tr> <td>"+rcentInvoices[i].invoiceNo+"</td><td>"+date.getDate()+"-"+months[date.getMonth()]+"</td><td>"+rcentInvoices[i].customerName+"</td></tr>";
+		html += "<tr> <td>"+rcentInvoices[i].invoiceNo+"</td><td>"+date.getDate()+"-"+months[date.getMonth()]+"</td><td>"+rcentInvoices[i].customerName+"</td>" +
+				"<td class='gridLargeCol'><a  target='_blank' href='/Print?invoiceNo="+rcentInvoices[i].invoiceNo+"&time="+rcentInvoices[i].invoiceTime+"'>Print</a></td>" +
+				"<td class='gridLargeCol'><a target='_blank' href='/Print?invoiceNo="+rcentInvoices[i].invoiceNo+"&time="+rcentInvoices[i].invoiceTime+"'>Email</a></td></tr>";
 	}
 	html += "</table>";
 	document.getElementById("recentInvoices").innerHTML = html;

@@ -128,8 +128,8 @@ public class SubmitInvoice extends HttpServlet {
 	
 	private long getLatestInvoiceNumber(String invoicesStr){
 		Gson  json = new Gson();
-		InvoiceDetails listOfInvoices= json.fromJson(invoicesStr, new TypeToken<InvoiceDetails>() {}.getType());
-		return listOfInvoices.getInvoiceNo();
+		InvoiceDetails aInvoice= json.fromJson(invoicesStr, new TypeToken<InvoiceDetails>() {}.getType());
+		return aInvoice.getInvoiceNo();
 		
 	}
 

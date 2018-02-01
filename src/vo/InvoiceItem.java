@@ -10,6 +10,10 @@ public class InvoiceItem {
 	private double sgstApplied;
 	private double igstApplied;
 	private double cessApplied;
+	private double cgst;
+	private double sgst;
+	private double igst;
+	private double cess;
 	private double rowTotal;
 	public String getItem() {
 		return item;
@@ -70,6 +74,30 @@ public class InvoiceItem {
 	}
 	public void setRowTotal(double rowTotal) {
 		this.rowTotal = rowTotal;
+	}
+	public double getCgst() {
+		return cgst;
+	}
+	public void setCgst(double cgst) {
+		this.cgst = cgst;
+	}
+	public double getSgst() {
+		return sgst;
+	}
+	public void setSgst(double sgst) {
+		this.sgst = sgst;
+	}
+	public double getIgst() {
+		return igst;
+	}
+	public void setIgst(double igst) {
+		this.igst = igst;
+	}
+	public double getCess() {
+		return cess;
+	}
+	public void setCess(double cess) {
+		this.cess = cess;
 	}
 	
 
