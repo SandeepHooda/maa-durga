@@ -127,6 +127,7 @@ function itemSelected(){
 function addToCart(){
 	let inventoryItems = document.getElementById("inventoryItems");
 	let selectedProduct = JSON.parse(inventoryItems.options[inventoryItems.selectedIndex].value);
+	selectedProduct.item = selectedProduct.inventoryDesc +" : "+selectedProduct.modelNo; 
 	selectedProduct.quantity = document.getElementById("quantity").value ;
 	selectedProduct.rate = document.getElementById("price").value;
 	selectedProduct.taxableValue = selectedProduct.quantity * selectedProduct.rate;
@@ -143,7 +144,7 @@ function addToCart(){
 	selectedProduct.sgstApplied = selectedProduct.taxableValue * selectedProduct.sgst /100 ;
 	selectedProduct.igstApplied = selectedProduct.taxableValue * selectedProduct.igst /100 ;
 	selectedProduct.cessApplied = selectedProduct.taxableValue * selectedProduct.cess /100 ;
-	selectedProduct.totalRowAmount = selectedProduct.taxableValue + selectedProduct.cgstApplied  +selectedProduct.sgstApplied +selectedProduct.igstApplied +selectedProduct.cessApplied;
+	selectedProduct.rowTotal = selectedProduct.taxableValue + selectedProduct.cgstApplied  +selectedProduct.sgstApplied +selectedProduct.igstApplied +selectedProduct.cessApplied;
 	
 	myCart.push(selectedProduct);
 	publishCartItems();
@@ -165,7 +166,7 @@ function publishCartItems(){
 	for (let i=0;i<myCart.length;i++){
 		cartItemsHtml += "<tr> <td class='gridLargeCol'> "+myCart[i].inventoryDesc +" : "+myCart[i].modelNo+"	 </td> <td> "+myCart[i].hsn+"	 </td> <td> "+myCart[i].quantity+" </td> <td> "+myCart[i].rate+" </td> <td> "+myCart[i].taxableValue+" </td>" +
 				"<td> "+myCart[i].cgstApplied+" @ "+myCart[i].cgst+"% </td><td> "+myCart[i].sgstApplied+" @ "+myCart[i].sgst+"% </td><td> "+myCart[i].igstApplied+" @ "+myCart[i].igst+"% </td><td> "+myCart[i].cessApplied+" @ "+myCart[i].cess+"% </td>" +
-						"<td> "+myCart[i].totalRowAmount+" </td> <td><span onclick=deleteFromCart('"+i+"') class='smallIcon'>&#x2718;</span></td> </tr>";
+						"<td> "+myCart[i].rowTotal+" </td> <td><span onclick=deleteFromCart('"+i+"') class='smallIcon'>&#x2718;</span></td> </tr>";
 	}
 	cartItemsHtml += "</table>";
 	document.getElementById("cart").innerHTML = cartItemsHtml;
@@ -190,18 +191,30 @@ function calcManualCartRowTotal(rowItem){
 	rowObject.quantity =  document.getElementById("manualCartItem"+rowItem+2).value;
 	rowObject.rate =  document.getElementById("manualCartItem"+rowItem+3).value;
 	
-		rowObject.taxablevalue = rowObject.quantity * rowObject.rate;
-		if (rowObject.item && !isNaN(rowObject.taxablevalue) && rowObject.taxablevalue >0 ){
-			 document.getElementById("manualCartItem"+rowItem+4).innerHTML = rowObject.taxablevalue ;
+		rowObject.taxableValue = rowObject.quantity * rowObject.rate;
+		if (rowObject.item && !isNaN(rowObject.taxableValue) && rowObject.taxableValue >0 ){
+			 document.getElementById("manualCartItem"+rowItem+4).innerHTML = rowObject.taxableValue ;
 			 rowObject.cgst = document.getElementById("manualCartItem"+rowItem+5).value;
-			 rowObject.cgstApplied =  rowObject.cgst * rowObject.taxablevalue/100;
+			 if ("" == rowObject.cgst){
+				 rowObject.cgst = 0;
+			 }
+			 rowObject.cgstApplied =  rowObject.cgst * rowObject.taxableValue/100;
 			 rowObject.sgst =  document.getElementById("manualCartItem"+rowItem+6).value;
-			 rowObject.sgstApplied = rowObject.sgst * rowObject.taxablevalue/100;
+			 if ("" == rowObject.sgst){
+				 rowObject.sgst = 0;
+			 }
+			 rowObject.sgstApplied = rowObject.sgst * rowObject.taxableValue/100;
 			 rowObject.igst = document.getElementById("manualCartItem"+rowItem+7).value;
-			 rowObject.igstApplied =   rowObject.igst * rowObject.taxablevalue/100;
+			 if ("" == rowObject.igst){
+				 rowObject.igst = 0;
+			 }
+			 rowObject.igstApplied =   rowObject.igst * rowObject.taxableValue/100;
 			 rowObject.cess = document.getElementById("manualCartItem"+rowItem+8).value;
-			 rowObject.cessApplied = rowObject.cess * rowObject.taxablevalue/100;
-			 rowObject.rowTotal =  rowObject.taxablevalue +rowObject.cgstApplied+rowObject.sgstApplied+rowObject.igstApplied+rowObject.cessApplied;
+			 if ("" == rowObject.cess){
+				 rowObject.cess = 0;
+			 }
+			 rowObject.cessApplied = rowObject.cess * rowObject.taxableValue/100;
+			 rowObject.rowTotal =  rowObject.taxableValue +rowObject.cgstApplied+rowObject.sgstApplied+rowObject.igstApplied+rowObject.cessApplied;
 			 document.getElementById("manualCartItem"+rowItem+9).innerHTML =rowObject.rowTotal.toFixed(2);
 			 if (!isNaN(rowObject.rowTotal)){
 				 return rowObject;
@@ -330,6 +343,7 @@ function onBodyLoad(){
 }
 
 function extractManualCartItems(){
+	myCartManual = [];
 	for (let i=0;i<maxRowsInInvoiceGrid;i++){
 		let rowObj = calcManualCartRowTotal(i);
 		if (null != rowObj){

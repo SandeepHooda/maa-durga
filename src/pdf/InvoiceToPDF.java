@@ -2,6 +2,7 @@ package pdf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.text.DecimalFormat;
@@ -16,14 +17,22 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import vo.InvoiceDetails;
-
+import vo.InvoiceItem;
 import vo.Registration;
 public class InvoiceToPDF {
 
 	private BaseFont bfBold;
 	 private BaseFont bf;
 	 private int pageNumber = 0;
-
+     private int penPosY = 0;
+     private int lineHeight = 15;
+     private int itemWidth = 130;
+     private int hsnWidth = 50;
+     private int qtyWidth = 20;
+     private int priceWidth = 55;
+     private int taxableWidth = 55;
+     private int taxWidth = 45;
+     private int cessWidth = 35;
 	public ByteArrayOutputStream getPdfBytes(Registration registration, InvoiceDetails invoiceDetails) throws DocumentException, IOException{
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		 Document doc = new Document();
@@ -44,18 +53,22 @@ public class InvoiceToPDF {
 		   PdfContentByte cb = docWriter.getDirectContent();
 		   
 		   boolean beginPage = true;
-		   int y = 0;
-		   
-		   for(int i=0; i < 100; i++ ){
+		   penPosY = 0;
+		   List<InvoiceItem> allItems = new ArrayList<InvoiceItem>();
+		   allItems.addAll(invoiceDetails.getMyCart());
+		   allItems.addAll(invoiceDetails.getMyCartManual());
+		   int index = 0;
+		   for(InvoiceItem aItem: allItems ){
 		    if(beginPage){
 		     beginPage = false;
 		     generateLayout(doc, cb); 
 		     generateHeader(doc, cb,invoiceDetails, registration);
-		     y = 570; 
+		     penPosY = 570; 
 		    }
-		    generateDetail(doc, cb, i, y);
-		    y = y - 15;
-		    if(y < 50){
+		    int linesConsumed = generateDetail(doc, cb, ++index, penPosY, aItem);
+		    
+		    penPosY -= ++linesConsumed *lineHeight;
+		    if(penPosY < 50){
 		     printPageNumber(cb);
 		     doc.newPage();
 		     beginPage = true;
@@ -113,28 +126,53 @@ public class InvoiceToPDF {
 		   cb.lineTo(570,585);
 		   //cb.moveTo(50,50);
 		   //cb.lineTo(50,600);
-		   int colSepY = 600;
-		   cb.moveTo(150,50);
-		   cb.lineTo(150,colSepY);
-		   cb.moveTo(430,50);
-		   cb.lineTo(430,colSepY);
-		   cb.moveTo(500,50);
-		   cb.lineTo(500,colSepY);
-		   cb.stroke();
-
+		   int verticalLineHeight = 600;
+		   
+		   
+		   
+		   int marginLeft = 1;
 		   // Invoice Detail box Text Headings 
 		   int headingY = 590;
-		   createHeadings(cb,22,headingY,"Item");
-		   createHeadings(cb,152,headingY,"HSN");
-		   createHeadings(cb,182,headingY,"Quantity");
-		   createHeadings(cb,220,headingY,"Price");
-		   createHeadings(cb,270,headingY,"Taxable value");
-		   createHeadings(cb,350,headingY,"CGST");
-		   createHeadings(cb,400,headingY,"SGST");
-		   createHeadings(cb,450,headingY,"IGST");
-		   createHeadings(cb,500,headingY,"CESS");
-		   createHeadings(cb,550,headingY,"Total");
+		   int headingX = 22;
+		   createHeadings(cb,headingX,headingY,"Item");
+		   headingX += itemWidth;
+		   createHeadings(cb,headingX,headingY,"HSN");
+		   cb.moveTo(headingX-marginLeft,50);
+		   cb.lineTo(headingX-marginLeft,verticalLineHeight);
+		   headingX += hsnWidth;
+		   createHeadings(cb,headingX,headingY,"Qty");
+		   cb.moveTo(headingX-marginLeft,50);
+		   cb.lineTo(headingX-marginLeft,verticalLineHeight);
+		   headingX += qtyWidth;
+		   createHeadings(cb,headingX,headingY,"Price");
+		   cb.moveTo(headingX-marginLeft,50);
+		   cb.lineTo(headingX-marginLeft,verticalLineHeight);
+		   headingX += priceWidth;
+		   createHeadings(cb,headingX,headingY,"Taxable value");
+		   cb.moveTo(headingX-marginLeft,50);
+		   cb.lineTo(headingX-marginLeft,verticalLineHeight);
+		   headingX += taxableWidth;
+		   createHeadings(cb,headingX,headingY,"CGST");
+		   cb.moveTo(headingX-marginLeft,50);
+		   cb.lineTo(headingX-marginLeft,verticalLineHeight);
+		   headingX += taxWidth;
+		   createHeadings(cb,headingX,headingY,"SGST");
+		   cb.moveTo(headingX-marginLeft,50);
+		   cb.lineTo(headingX-marginLeft,verticalLineHeight);
+		   headingX += taxWidth;
+		   createHeadings(cb,headingX,headingY,"IGST");
+		   cb.moveTo(headingX-marginLeft,50);
+		   cb.lineTo(headingX-marginLeft,verticalLineHeight);
+		   headingX += taxWidth;
+		   createHeadings(cb,headingX,headingY,"CESS");
+		   cb.moveTo(headingX-marginLeft,50);
+		   cb.lineTo(headingX-marginLeft,verticalLineHeight);
+		   headingX += cessWidth;
+		   createHeadings(cb,headingX,headingY,"Total");
+		   cb.moveTo(headingX-marginLeft,50);
+		   cb.lineTo(headingX-marginLeft,verticalLineHeight);
 
+		   cb.stroke();
 		   //add the images
 		   ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		   String path = classLoader.getResource("images/durga.png").getPath();
@@ -195,26 +233,66 @@ public class InvoiceToPDF {
 
 		 }
 		 
-		 private void generateDetail(Document doc, PdfContentByte cb, int index, int y)  {
+		 private int generateDetail(Document doc, PdfContentByte cb, int index, int y, InvoiceItem aItem)  {
 		  DecimalFormat df = new DecimalFormat("0.00");
-		  
+		  int noOfLines = 0;
 		  try {
-
-		   createContent(cb,48,y,String.valueOf(index+1),PdfContentByte.ALIGN_RIGHT);
-		   createContent(cb,52,y, "ITEM" + String.valueOf(index+1),PdfContentByte.ALIGN_LEFT);
-		   createContent(cb,152,y, "Product Description - SIZE " + String.valueOf(index+1),PdfContentByte.ALIGN_LEFT);
-		   
-		   double price = Double.valueOf(df.format(Math.random() * 10));
-		   double extPrice = price * (index+1) ;
-		   createContent(cb,498,y, df.format(price),PdfContentByte.ALIGN_RIGHT);
-		   createContent(cb,568,y, df.format(extPrice),PdfContentByte.ALIGN_RIGHT);
+		  int penPosX = 22;
+		  String[] itemDescParts = (String.valueOf(index) +". "+ aItem.getItem()).split(" ");
+		  String lineContent = "";
+		  
+		  for (String part: itemDescParts){
+			  if ((lineContent+" "+part).length() < 30 ){
+				  lineContent +=" "+part;
+			  }else {
+				 
+				  createContent(cb,penPosX,(y- noOfLines++*lineHeight),lineContent,PdfContentByte.ALIGN_LEFT);
+				  lineContent = part;
+			  }
+			  
+		  }
+		  createContent(cb,penPosX,(y- noOfLines++*lineHeight),lineContent,PdfContentByte.ALIGN_LEFT);
+		  int marginLeft = 2;
+		  penPosX += itemWidth;
+		  createContent(cb,penPosX+marginLeft,y, aItem.getHsn() ,PdfContentByte.ALIGN_LEFT);
+		  penPosX += hsnWidth;
+		  createContent(cb,penPosX+marginLeft,y, aItem.getQuantity() ,PdfContentByte.ALIGN_LEFT);
+		  
+		  penPosX += qtyWidth;
+		  createContent(cb,penPosX+marginLeft,y, df.format(aItem.getRate()) ,PdfContentByte.ALIGN_LEFT);
+		  
+		  penPosX += priceWidth;
+		  createContent(cb,penPosX+marginLeft,y, df.format(aItem.getTaxableValue()) ,PdfContentByte.ALIGN_LEFT);
+		 
+		  penPosX += taxableWidth;
+		  createContent(cb,penPosX+marginLeft,y, df.format(aItem.getCgstApplied()) ,PdfContentByte.ALIGN_LEFT);
+		  createContent(cb,penPosX+marginLeft,y-lineHeight, "@ "+aItem.getCgst() +"%" ,PdfContentByte.ALIGN_LEFT);
+		  
+		  penPosX += taxWidth;
+		  createContent(cb,penPosX+marginLeft,y, df.format(aItem.getSgstApplied()) ,PdfContentByte.ALIGN_LEFT);
+		  createContent(cb,penPosX+marginLeft,y-lineHeight, "@ "+aItem.getSgst() +"%" ,PdfContentByte.ALIGN_LEFT);
+		  
+		  penPosX += taxWidth;
+		  createContent(cb,penPosX+marginLeft,y, df.format(aItem.getIgstApplied()) ,PdfContentByte.ALIGN_LEFT);
+		  createContent(cb,penPosX+marginLeft,y-lineHeight, "@ "+aItem.getIgst() +"%" ,PdfContentByte.ALIGN_LEFT);
+		  
+		  penPosX += taxWidth;
+		  createContent(cb,penPosX+marginLeft,y, df.format(aItem.getCessApplied()) ,PdfContentByte.ALIGN_LEFT);
+		  createContent(cb,penPosX+marginLeft,y-lineHeight, "@ "+aItem.getCess() +"%" ,PdfContentByte.ALIGN_LEFT);
+		  
+		  penPosX += cessWidth;
+		  createContent(cb,penPosX+marginLeft,y, df.format(aItem.getRowTotal()) ,PdfContentByte.ALIGN_LEFT);
+		  
 		   
 		  }
 
 		  catch (Exception ex){
 		   ex.printStackTrace();
 		  }
-
+		  if (noOfLines == 1){
+			  noOfLines++;
+		  }
+		  return noOfLines;
 		 }
 
 		 private void createHeadings(PdfContentByte cb, float x, float y, String text){

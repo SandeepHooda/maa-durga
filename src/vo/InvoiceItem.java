@@ -4,8 +4,8 @@ public class InvoiceItem {
 	private String item;
 	private String hsn;
 	private String quantity;
-	private String rate;
-	private double taxablevalue;
+	private double rate;
+	private double taxableValue;
 	private double cgstApplied;
 	private double sgstApplied;
 	private double igstApplied;
@@ -33,18 +33,8 @@ public class InvoiceItem {
 	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
-	public String getRate() {
-		return rate;
-	}
-	public void setRate(String rate) {
-		this.rate = rate;
-	}
-	public double getTaxablevalue() {
-		return taxablevalue;
-	}
-	public void setTaxablevalue(double taxablevalue) {
-		this.taxablevalue = taxablevalue;
-	}
+	
+	
 	public double getCgstApplied() {
 		return cgstApplied;
 	}
@@ -98,6 +88,18 @@ public class InvoiceItem {
 	}
 	public void setCess(double cess) {
 		this.cess = cess;
+	}
+	public double getTaxableValue() {
+		return taxableValue;
+	}
+	public void setTaxableValue(double taxableValue) {
+		this.taxableValue = taxableValue;
+	}
+	public double getRate() {
+		return rate;
+	}
+	public void setRate(double rate) {
+		this.rate = rate;
 	}
 	
 
