@@ -77,11 +77,17 @@
 				 <tr>
 				 	 <td> <B>Shipping Address:</B></td> <td>  <textarea rows="6" cols="30" name="shippingAddress" id="shippingAddress"></textarea></td> 
 				  </tr>
-				  	<td> <B>State:</B></td> <td> <datalist id="shippingState" name="shippingState" onchange="saveFavouriteStateCode()"></datalist></td>
+				  	<td> <B>State:</B></td> <td> <select id="shippingState" name="shippingState" onchange="saveFavouriteStateCode()"></select></td>
 				  <tr>
 				  </tr>
-				  	<td > <B>Item:</B> </td> <td> <datalist id="inventoryItems" name="inventoryItems" onchange="itemSelected()"></datalist></td> 
+				  	<td > <B>Item:</B> </td> 
+				  	<td>
+				  	<input type="text" id="inventoryInput" onkeyup="findItem(event)"> 
+				  	</td> 
 				  <tr>
+				  <tr>
+				  	<td colspan="2"><select id="inventoryItems"  name="inventoryItems" onchange="itemSelected()" multiple ></select> </td>
+				  </tr>
 				   </tr>
 				  	<td > <B>Qty:</B> </td> <td> <input type="text" name="quantity" id="quantity" value="1"/></td> 
 				  <tr>

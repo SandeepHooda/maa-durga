@@ -162,34 +162,85 @@ function saveFavouriteStateCode(){
 
 }
 
-function pupulateInventoryItems(inventoryItemsDB){
+let inventoryItemsDB = [];
+function pupulateInventoryItems(inventoryData){
+	
+	for(let i = 0; i < inventoryData.length;i++) {
+		inventoryData[i].index = i+1;
+	}
+	inventoryItemsDB = inventoryData
+	
+	let inventoryInput = document.getElementById('inventoryInput');
 	let inventoryItems = document.getElementById("inventoryItems");
-	let countOfItems = 0;
+	clearInventoryDropDown()
+	
 	
 	let option = document.createElement('option');
-	option.text = option.value = pleaseSelect;
-	inventoryItems.add(option, countOfItems++);
+	/*option.text = option.value = pleaseSelect;
+	inventoryItems.add(option, countOfItems++);*/
 	
-	for(let i = 0; i < inventoryItemsDB.length;i++) {
+	
+	for(let i = 0; i < inventoryData.length;i++) {
 		let option = document.createElement('option');
-	     option.value = JSON.stringify(inventoryItemsDB[i]);
-	     option.text =  inventoryItemsDB[i].productDesc +" : " +inventoryItemsDB[i].inventoryDesc +" : "+inventoryItemsDB[i].modelNo;
-	    inventoryItems.add(option, countOfItems++);
+	     //option.value =countOfItems+". "+ inventoryData[i].productDesc +" : " +inventoryData[i].inventoryDesc +" : "+inventoryData[i].modelNo;//JSON.stringify(inventoryItemsDB[i]);
+		option.value= option.text = inventoryData[i].index +"."+ inventoryItemsDB[i].productDesc +" : " +inventoryItemsDB[i].inventoryDesc +" : "+inventoryItemsDB[i].modelNo;
+		inventoryItems.add(option);
+	   
 	}
 	
 	
 }
+function clearInventoryDropDown(){
+	let inventoryItems = document.getElementById("inventoryItems");
+	  while(inventoryItems.length>0){
+		  inventoryItems.remove(0);
+	  }
+}
+function filterInventoryItems(filterText){
+	let inventoryItems = document.getElementById("inventoryItems");
+	
+	clearInventoryDropDown();
+	for(let i = 0; i < inventoryItemsDB.length;i++) {
+		let productFullName = inventoryItemsDB[i].index +"."+ inventoryItemsDB[i].productDesc +" : " +inventoryItemsDB[i].inventoryDesc +" : "+inventoryItemsDB[i].modelNo;
+		if (productFullName.toLowerCase().indexOf(filterText.toLowerCase()) >=0){
+			let option = document.createElement('option');
+		     //option.value =countOfItems+". "+ inventoryData[i].productDesc +" : " +inventoryData[i].inventoryDesc +" : "+inventoryData[i].modelNo;//JSON.stringify(inventoryItemsDB[i]);
+			option.value= option.text = productFullName
+			inventoryItems.add(option);
+		}
+		
+	   
+	}
+}
+function findItem(event){
+	var KeyID = event.keyCode;
+	   switch(KeyID)
+	   {
+	      case 8:
+	    	  document.getElementById("inventoryInput").value = "";
+	    	  pupulateInventoryItems(inventoryItemsDB);
+	      break; 
+	      default:
+	    	  filterInventoryItems(document.getElementById("inventoryInput").value);
+	    	  break;
+	   }
+	
+}
+let selectedProductFromList = {};
 function itemSelected(){
 	let inventoryItems = document.getElementById("inventoryItems");
-	let selectedProduct = JSON.parse(inventoryItems.options[inventoryItems.selectedIndex].value);
-	if ( pleaseSelect != selectedProduct){
-		document.getElementById("price").value = selectedProduct.salesPriceRegularWithoutTax;
+	
+	let value = inventoryItems.options[inventoryItems.selectedIndex].value;
+	let index = parseInt(value.substring(0, value.indexOf(".")));
+	selectedProductFromList = inventoryItemsDB[index-1];
+	if ( pleaseSelect != selectedProductFromList){
+		document.getElementById("price").value = selectedProductFromList.salesPriceRegularWithoutTax;
 	}
 }
 
 function addToCart(){
 	let inventoryItems = document.getElementById("inventoryItems");
-	let selectedProduct = JSON.parse(inventoryItems.options[inventoryItems.selectedIndex].value);
+	let selectedProduct = JSON.parse(JSON.stringify(selectedProductFromList));
 	selectedProduct.item = selectedProduct.inventoryDesc +" : "+selectedProduct.modelNo; 
 	selectedProduct.quantity = document.getElementById("quantity").value ;
 	selectedProduct.rate = document.getElementById("price").value;
