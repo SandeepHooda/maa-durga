@@ -36,48 +36,85 @@
 	<!-- Sales details -->
 	
 	<div id="salesForm" name="salesForm">
-		<table class="loginPage" >
-			<tr>
-			 	<td> <B>Customer Name: </B></td> <td> <input type="text" name="customerName" id="customerName"/></td> 
-			 </tr>
-			 <tr>
-			 	 <td> <B>Shipping Address:</B></td> <td>  <textarea rows="6" cols="30" name="shippingAddress" id="shippingAddress"></textarea></td> 
-			  </tr>
-			  	<td> <B>State:</B></td> <td> <select id="shippingState" name="shippingState" onchange="saveFavouriteStateCode()"></select></td>
-			  <tr>
-			  </tr>
-			  	<td > <B>Item:</B> </td> <td> <select id="inventoryItems" name="inventoryItems" onchange="itemSelected()"></select></td> 
-			  <tr>
-			   </tr>
-			  	<td > <B>Qty:</B> </td> <td> <input type="text" name="quantity" id="quantity" value="1"/></td> 
-			  <tr>
-			   </tr>
-			  	<td > <B>Price:</B> </td> <td> <input type="text" name="price" id="price"/></td> 
-			  <tr>
-			  <td></td>
-			  	<td >  <span onclick="addToCart()" class="bigIcon">Add &#x271A;</span></td> 
-			  </tr>
-			  <tr>
-			  	<td colspan="2" name="loginStatus" id="loginStatus"> <span > </td> 
-			  </tr>
-		</table>
+	<br/>
+	<span id="toggle" name="toggle" onclick="toggleInvoice_Report()" class="bigIcon">Show Reports</span>
+	<br/><br/><br/><br/>
+	
+	<div id="reportView" name="reportView">
+		<select id="reportMonths" name="reportMonths" >
+			  <option value="1">Jan</option>
+			  <option value="2">Feb</option>
+			  <option value="3">Mar</option>
+			  <option value="4">Apr</option>
+			  <option value="5">May</option>
+			  <option value="6">Jun</option>
+			  <option value="7">Jul</option>
+			  <option value="8">Aug</option>
+			  <option value="9">Sep</option>
+			  <option value="10">Oct</option>
+			  <option value="11">Nov</option>
+			  <option value="12">Dec</option>
+		</select> 
+			&nbsp;&nbsp;&nbsp;&nbsp; 
+		<select id="reportYear" name="reportYear" onchange="itemSelected()">
+			  <option value="2018">2018</option>
+			  <option value="2019">2019</option>
+			 
+		</select>
+		<br/><br/><br/><br/>
+		<span onclick="fetchReport('html')" class="bigIcon">Get Report &#x2708;</span>
+		<span onclick="fetchReport('csv')" class="bigIcon">Export to XLS &#x2708;</span>
 		
-		<div id="cart" name="cart"></div>
+		</br/></br/><br/>
+			<div id="reports" name="reports"></div>
+	</div> <!--  Sales /repors -->
+	<div id="invoiceView" name="invoiceView">
+	
+			<table class="loginPage" >
+				<tr>
+				 	<td> <B>Customer Name: </B></td> <td> <input type="text" name="customerName" id="customerName"/></td> 
+				 </tr>
+				 <tr>
+				 	 <td> <B>Shipping Address:</B></td> <td>  <textarea rows="6" cols="30" name="shippingAddress" id="shippingAddress"></textarea></td> 
+				  </tr>
+				  	<td> <B>State:</B></td> <td> <datalist id="shippingState" name="shippingState" onchange="saveFavouriteStateCode()"></datalist></td>
+				  <tr>
+				  </tr>
+				  	<td > <B>Item:</B> </td> <td> <datalist id="inventoryItems" name="inventoryItems" onchange="itemSelected()"></datalist></td> 
+				  <tr>
+				   </tr>
+				  	<td > <B>Qty:</B> </td> <td> <input type="text" name="quantity" id="quantity" value="1"/></td> 
+				  <tr>
+				   </tr>
+				  	<td > <B>Price:</B> </td> <td> <input type="text" name="price" id="price"/></td> 
+				 
+				 
+			</table>
+			<div class="left-140"><span onclick="addToCart()" class="bigIcon">Add &#x271A;</span></div>
+			<br/><br/><br/>
+			<span  name="loginStatus" id="loginStatus"> </span>
+			
+			<div id="cart" name="cart"></div>
+			
+			<br/><br/>
+			<div class="left-140"><span onclick="toggleManualGrid()" class="bigIcon">&#x270D;</span></div>
+			
+			<br/><br/><br/>
+			
+			<div id="cartManualDiv" name="cartManualDiv"></div>
+			
+			<br/></br/>
+			<div class="left-140">	<span id="submitCartButton" name="submitCartButton" onclick="submitCart()" class="bigIcon">Submit &#x2705;</span>	</div>
+			<div id="submitInvoiceResult" name="submitInvoiceResult"></div>
+			<br/></br/>
+			<B>Send Email: </B> <input type="text" name="toAddress" id="toAddress"/>
+			</br/></br/>
+			<div id="recentInvoices" name="recentInvoices"></div>
 		
-		<br/><br/>
-		<div class="left-140"><span onclick="toggleManualGrid()" class="bigIcon">&#x270D;</span></div>
-		
-		<br/><br/><br/>
-		
-		<div id="cartManualDiv" name="cartManualDiv"></div>
-		
-		<br/></br/>
-		<div class="left-140">	<span id="submitCartButton" name="submitCartButton" onclick="submitCart()" class="bigIcon">Submit &#x2705;</span>	</div>
-		<div id="submitInvoiceResult" name="submitInvoiceResult"></div>
-		<br/></br/>
-		<B>Send Email: </B> <input type="text" name="toAddress" id="toAddress"/>
-		</br/></br/>
-		<div id="recentInvoices" name="recentInvoices"></div>
+		</div><!--  sales/Invoice view -->	
 	</div> <!--  Sales form -->
+	
+	
+	
 </body>
 </html>

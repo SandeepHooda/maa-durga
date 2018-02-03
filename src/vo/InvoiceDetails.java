@@ -19,7 +19,8 @@ public class InvoiceDetails {
 	private List<InvoiceItem> myCartManual;
 	private List<InvoiceItem>  myCart;
 	private long invoiceNo;
-
+	private String modeOfSale = "OE";//E = ecomerce, OE = other that Ecommerce
+	private String ecommerceGSTN;
 	
 	
 	public long getInvoiceTime() {
@@ -96,5 +97,23 @@ public class InvoiceDetails {
 	}
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
+	}
+	public String getModeOfSale() {
+		return modeOfSale;
+	}
+	public void setModeOfSale(String modeOfSale) {
+		if (null == modeOfSale){
+			modeOfSale = "OE";
+		}
+		this.modeOfSale = modeOfSale;
+	}
+	public String getEcommerceGSTN() {
+		if (null == ecommerceGSTN){
+			ecommerceGSTN = "";
+		}
+		return ecommerceGSTN;
+	}
+	public void setEcommerceGSTN(String ecommerceGSTN) {
+		this.ecommerceGSTN = ecommerceGSTN;
 	}
 }

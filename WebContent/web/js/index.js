@@ -6,6 +6,69 @@ let myCart = [];
 let myCartManual = [];
 let maxColumnsInInvoiceGrid = 11;//don't change this else in manual grid all mataematic operation slike calc tax and total ect wil disturb
 let maxRowsInInvoiceGrid = 10;
+let invoiceView = false;
+function toggleInvoice_Report(){
+	invoiceView = !invoiceView;
+	if (invoiceView){
+		document.getElementById("invoiceView").style = "display: block;"
+		document.getElementById("reportView").style = "display: none;" 
+		document.getElementById("toggle").innerHTML = "Show Reports";
+	}else {
+		document.getElementById("reportView").style = "display: block;"
+		document.getElementById("invoiceView").style = "display: none;" ;
+		document.getElementById("toggle").innerHTML = "Show Invoice";
+	}
+	
+}
+
+function fetchReport(format){
+	  let monthSelect = document.getElementById("reportMonths");
+	  let month = monthSelect.options[monthSelect.selectedIndex].value;
+	  
+	  let yearSelect = document.getElementById("reportYear");
+	  let year = yearSelect.options[yearSelect.selectedIndex].value;
+	  let url = "/RecentInvoices?month="+month+"&year="+year+"&format="+format;
+	  if (format == "csv"){
+		  window.open(url, '_blank');
+	  }else {
+		  
+		  
+		  let xhr = null;
+			if (window.XMLHttpRequest) {
+			    // code for modern browsers
+				xhr = new XMLHttpRequest();
+			 } else {
+			    // code for old IE browsers
+				 xhr = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xhr.onreadystatechange = function() {
+				if (this.readyState == 4 ) {
+					if (this.status == 200){
+						let rcentInvoices = JSON.parse(this.responseText);
+						showRcentInvoices(rcentInvoices, true);
+						//window.scrollTo(0,document.body.scrollHeight);
+					}else {
+						
+						//window.scrollTo(0,document.body.scrollHeight);
+					}
+				     
+				   }
+				
+			  
+			  };
+			  
+			 
+			  
+			  
+			xhr.open("GET", url, true);
+			xhr.send();
+		  
+	  }
+	  
+	
+	
+	
+}
 
 function loginWithUserIDAndPwd(userID , pwd){
 	let xhr = null;
@@ -326,6 +389,7 @@ function postLogin(){
 	getRecentInvoices(10);
 }
 function onBodyLoad(){
+	toggleInvoice_Report();
 	generateManualCart();
 	let userID = localStorage.getItem("userID");
 	
@@ -356,6 +420,7 @@ function submitCart(){
 	document.getElementById("submitInvoiceResult").innerHTML = "";
 	extractManualCartItems();
 	let invoiceDetails = {};
+	invoiceDetails.modeOfSale = "OE";//E- ecommerce OE other than Ecommerce
 	invoiceDetails.invoiceTime = new Date().getTime();
 	invoiceDetails.myCartManual = myCartManual;
 	invoiceDetails.myCart = myCart;
@@ -439,7 +504,7 @@ function sendEmail (invoiceTime, invoiceNo){
 	let url = "/Print?docType=email&invoiceNo="+invoiceNo+"&time="+invoiceTime+"&toAddress="+toAddress;
 	window.open(url, '_blank');
 }
-function showRcentInvoices( rcentInvoices){
+function showRcentInvoices( rcentInvoices, asReport){
 	
 	let html = "<table class='grid' border='1' >";
 	html += "<tr> <th> Invoice No  </th><th> Date  </th> <th> Customer Name </th> <th>Print</th> <th>Email</th> </tr>";
@@ -451,9 +516,15 @@ function showRcentInvoices( rcentInvoices){
 				"<td class='gridLargeCol'><span onclick='sendEmail("+rcentInvoices[i].invoiceTime+", "+rcentInvoices[i].invoiceNo+")' class='bigIcon' >&#x2709;</span></td></tr>";
 	}
 	html += "</table>";
-	document.getElementById("recentInvoices").innerHTML = html;
-	location.href = "#";
-	location.href = "#submitCartButton";
+	if (asReport){
+		document.getElementById("reports").innerHTML = html;
+		
+	}else {
+		document.getElementById("recentInvoices").innerHTML = html;
+		location.href = "#";
+		location.href = "#submitCartButton";
+	}
+	
 	
 	
 }
@@ -471,7 +542,7 @@ function getRecentInvoices(count){
 		if (this.readyState == 4 ) {
 			if (this.status == 200){
 				let rcentInvoices = JSON.parse(this.responseText);
-				showRcentInvoices(rcentInvoices);
+				showRcentInvoices(rcentInvoices, false);
 				//window.scrollTo(0,document.body.scrollHeight);
 			}else {
 				
