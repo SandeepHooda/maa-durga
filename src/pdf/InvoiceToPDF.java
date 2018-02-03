@@ -33,6 +33,7 @@ public class InvoiceToPDF {
      private int taxableWidth = 55;
      private int taxWidth = 45;
      private int cessWidth = 35;
+     private  DecimalFormat df = new DecimalFormat("0.00");
 	public ByteArrayOutputStream getPdfBytes(Registration registration, InvoiceDetails invoiceDetails) throws DocumentException, IOException{
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		 Document doc = new Document();
@@ -68,13 +69,15 @@ public class InvoiceToPDF {
 		    int linesConsumed = generateDetail(doc, cb, ++index, penPosY, aItem);
 		    
 		    penPosY -= ++linesConsumed *lineHeight;
-		    if(penPosY < 50){
-		     printPageNumber(cb);
+		    if(penPosY < 150){
+		     printPageNumber(cb, false);
 		     doc.newPage();
 		     beginPage = true;
 		    }
 		   }
-		   printPageNumber(cb);
+		   printPageNumber(cb, true);
+		   printTotal(cb, invoiceDetails);
+		   
 
 		  }
 		  catch (DocumentException dex)
@@ -105,27 +108,19 @@ public class InvoiceToPDF {
 
 		   cb.setLineWidth(1f);
 
-		   // Invoice Header box layout
-		 /*  cb.rectangle(420,700,150,60);
-		   cb.moveTo(420,720);
-		   cb.lineTo(570,720);
-		   cb.moveTo(420,740);
-		   cb.lineTo(570,740);
-		   cb.moveTo(480,700);
-		   cb.lineTo(480,760);
-		   cb.stroke();*/
+		
 
 		   // Invoice Header box Text Headings 
 		   createHeadings(cb,422,743,"Invoice No:");
 		   createHeadings(cb,422,723,"Invoice Date:");
+		  
 		   //createHeadings(cb,422,703,"");
 
 		   // Invoice Detail box layout 
 		   cb.rectangle(20,50,550,550);
 		   cb.moveTo(20,585);
 		   cb.lineTo(570,585);
-		   //cb.moveTo(50,50);
-		   //cb.lineTo(50,600);
+		   
 		   int verticalLineHeight = 600;
 		   
 		   
@@ -191,7 +186,53 @@ public class InvoiceToPDF {
 		  }
 
 		 }
-		 
+		 private void printTotal(PdfContentByte cb, InvoiceDetails invoiceDetails){
+			 
+			 double totalTaxable = 0;
+			 double totalIgst = 0;
+			 double totalCgst =0;
+			 double totalSgst = 0;
+			 double totalCess = 0;
+			 double totalInvoice = 0;
+			 for (InvoiceItem item: invoiceDetails.getMyCart()){
+				 totalTaxable += item.getTaxableValue();
+				 totalIgst += item.getIgstApplied();
+				 totalSgst += item.getSgstApplied();
+				 totalCgst += item.getCgstApplied();
+				 totalCess += item.getCessApplied();
+			 }
+			 for (InvoiceItem item: invoiceDetails.getMyCartManual()){
+				 totalTaxable += item.getTaxableValue();
+				 totalIgst += item.getIgstApplied();
+				 totalSgst += item.getSgstApplied();
+				 totalCgst += item.getCgstApplied();
+				 totalCess += item.getCessApplied();
+			 }
+			 totalInvoice = totalTaxable +totalIgst+totalSgst+totalCgst+totalCess;
+			 
+			 //Draw Total line 
+			 cb.moveTo(20,70);
+			 cb.lineTo(570,70);
+			 CMYKColor black = new CMYKColor(0.f, 0.f, 0.f, 0.34f);
+			 cb.setColorStroke(black);
+			 cb.stroke();
+			 
+			 int totalPosY = 55;
+			 int totalPosX = 25;
+			 createHeadings(cb,totalPosX,totalPosY,"Total");
+			 totalPosX = 280;
+			 createHeadings(cb,totalPosX,totalPosY,df.format(totalTaxable));
+			 totalPosX += taxableWidth;
+			 createHeadings(cb,totalPosX,totalPosY,df.format(totalCgst));
+			 totalPosX += taxWidth;
+			 createHeadings(cb,totalPosX,totalPosY,df.format(totalSgst));
+			 totalPosX += taxWidth;
+			 createHeadings(cb,totalPosX,totalPosY,df.format(totalIgst));
+			 totalPosX += taxWidth;
+			 createHeadings(cb,totalPosX,totalPosY,df.format(totalCess));
+			 totalPosX += cessWidth;
+			 createHeadings(cb,totalPosX,totalPosY,df.format(totalInvoice));
+		 }
 		 private void generateHeader(Document doc, PdfContentByte cb, InvoiceDetails invoiceDetails, Registration registration)  {
 
 		  try {
@@ -234,7 +275,7 @@ public class InvoiceToPDF {
 		 }
 		 
 		 private int generateDetail(Document doc, PdfContentByte cb, int index, int y, InvoiceItem aItem)  {
-		  DecimalFormat df = new DecimalFormat("0.00");
+		 
 		  int noOfLines = 0;
 		  try {
 		  int penPosX = 22;
@@ -306,12 +347,17 @@ public class InvoiceToPDF {
 
 		 }
 		 
-		 private void printPageNumber(PdfContentByte cb){
+		 private void printPageNumber(PdfContentByte cb, boolean isLastPage){
 
 
 		  cb.beginText();
 		  cb.setFontAndSize(bfBold, 8);
-		  cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "Page No. " + (pageNumber+1), 570 , 25, 0);
+		  String nextPageMsg = " Cont...";
+		  if (isLastPage){
+			  nextPageMsg = " End.";
+		  }
+		  cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "Page No. " + (pageNumber+1)+nextPageMsg, 570 , 25, 0);
+		  
 		  cb.endText(); 
 		  
 		  pageNumber++;
