@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +20,8 @@ import com.google.gson.reflect.TypeToken;
 import com.itextpdf.text.DocumentException;
 
 import db.MangoDB;
+import email.MailService;
+import misc.Utils;
 import vo.InvoiceDetails;
 import vo.InvoiceItem;
 import vo.Registration;
@@ -48,11 +51,13 @@ public class Print extends HttpServlet {
 			Registration registrationDetails = (Registration)request.getSession().getAttribute("registrationDetails");
 			long time = Long.parseLong(request.getParameter("time"));
 			long invoiceNo = Long.parseLong(request.getParameter("invoiceNo"));
+			String docType =  request.getParameter("docType");
 			if (null != registrationDetails){
 				List<InvoiceItem> invoice = new ArrayList<InvoiceItem>();
 				InvoiceItem item = new InvoiceItem();
 				invoice.add(item);
-				Calendar cal = new GregorianCalendar();
+				Calendar cal = Utils.getCalender();
+				Utils.setTimeZone();
 				cal.setTimeInMillis(time);
 				int year = cal.get(Calendar.YEAR);
 				int month = 1+cal.get(Calendar.MONTH);
@@ -63,20 +68,41 @@ public class Print extends HttpServlet {
 				InvoiceDetails aInvoice= json.fromJson(invoicesStr, new TypeToken<InvoiceDetails>() {}.getType());
 				
 				baos = new InvoiceToPDF().getPdfBytes(registrationDetails,aInvoice);
-				// setting some response headers
-		        response.setHeader("Expires", "0");
-		        response.setHeader("Cache-Control",
-		            "must-revalidate, post-check=0, pre-check=0");
-		        response.setHeader("Pragma", "public");
-		        // setting the content type
-		        response.setContentType("application/pdf");
-		        // the contentlength
-		        response.setContentLength(baos.size());
-		     // write ByteArrayOutputStream to the ServletOutputStream
-	            OutputStream os = response.getOutputStream();
-	            baos.writeTo(os);
-	            os.flush();
-	            os.close();
+				
+				if ("email".equalsIgnoreCase(docType)){
+					try {
+						baos = new InvoiceToPDF().getPdfBytes(registrationDetails,aInvoice);
+						String subject = "Sales Invoice from "+registrationDetails.getbName()+" Invoice no "+invoiceNo;
+						String toAddress =  request.getParameter("toAddress");
+						if (null == toAddress || "".equals(toAddress) || "null".equalsIgnoreCase(toAddress)){
+							toAddress = registrationDetails.getEmail();
+						}
+					     new MailService(). sendMultipartMail(toAddress,registrationDetails.getEmail(),registrationDetails.getbName(), baos.toByteArray(),subject,subject );
+					      response.getWriter().print("Email Sent");
+					} catch (DocumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else {
+					
+					// setting some response headers
+			        response.setHeader("Expires", "0");
+			        response.setHeader("Cache-Control",
+			            "must-revalidate, post-check=0, pre-check=0");
+			        response.setHeader("Pragma", "public");
+			        // setting the content type
+			        response.setContentType("application/pdf");
+			        // the contentlength
+			        response.setContentLength(baos.size());
+			     // write ByteArrayOutputStream to the ServletOutputStream
+		            OutputStream os = response.getOutputStream();
+		            baos.writeTo(os);
+		            os.flush();
+		            os.close();
+					
+				}
+				
+				
 			}else {
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			}

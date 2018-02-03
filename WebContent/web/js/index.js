@@ -431,6 +431,14 @@ function submitInvoice(invoiceDetails){
 	xhr.send("invoiceDetails="+invoiceDetailsStr);
 	
 }
+function sendEmail (invoiceTime, invoiceNo){
+	let toAddress = document.getElementById("toAddress").value
+	if (!toAddress){
+		toAddress = "";
+	}
+	let url = "/Print?docType=email&invoiceNo="+invoiceNo+"&time="+invoiceTime+"&toAddress="+toAddress;
+	window.open(url, '_blank');
+}
 function showRcentInvoices( rcentInvoices){
 	
 	let html = "<table class='grid' border='1' >";
@@ -440,7 +448,7 @@ function showRcentInvoices( rcentInvoices){
 		var date = new Date(rcentInvoices[i].invoiceTime);
 		html += "<tr> <td>"+rcentInvoices[i].invoiceNo+"</td><td>"+date.getDate()+"-"+months[date.getMonth()]+"</td><td>"+rcentInvoices[i].customerName+"</td>" +
 				"<td class='gridLargeCol'><a  target='_blank' href='/Print?invoiceNo="+rcentInvoices[i].invoiceNo+"&time="+rcentInvoices[i].invoiceTime+"'>Print</a></td>" +
-				"<td class='gridLargeCol'><a target='_blank' href='/Print?invoiceNo="+rcentInvoices[i].invoiceNo+"&time="+rcentInvoices[i].invoiceTime+"'>Email</a></td></tr>";
+				"<td class='gridLargeCol'><span onclick='sendEmail("+rcentInvoices[i].invoiceTime+", "+rcentInvoices[i].invoiceNo+")' class='bigIcon' >&#x2709;</span></td></tr>";
 	}
 	html += "</table>";
 	document.getElementById("recentInvoices").innerHTML = html;

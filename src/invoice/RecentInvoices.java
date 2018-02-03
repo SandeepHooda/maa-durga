@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import db.MangoDB;
+import misc.Utils;
 import vo.InvoiceDetails;
 import vo.Registration;
 
@@ -39,7 +40,8 @@ public class RecentInvoices extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Registration registrationDetails = (Registration)request.getSession().getAttribute("registrationDetails");
 		if (null != registrationDetails){
-			Calendar cal = new GregorianCalendar();
+			Calendar cal = Utils.getCalender();
+			Utils.setTimeZone();
 			int year = cal.get(Calendar.YEAR);
 			int month = 1+cal.get(Calendar.MONTH);
 			

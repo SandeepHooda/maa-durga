@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import db.MangoDB;
+import misc.Utils;
 import vo.InvoiceDetails;
 import vo.InvoiceDetailsSort;
 import vo.Registration;
@@ -63,7 +64,8 @@ public class SubmitInvoice extends HttpServlet {
 			invoiceDetails.setInvoiceNo(latestInvoiceNo);
 			invoiceDetails.set_id(""+latestInvoiceNo);
 			
-			Calendar cal = new GregorianCalendar();
+			Calendar cal = Utils.getCalender();
+			Utils.setTimeZone();
 			cal.setTimeInMillis(invoiceDetails.getInvoiceTime());
 			int year = cal.get(Calendar.YEAR);
 			int month = 1+cal.get(Calendar.MONTH);
@@ -89,7 +91,8 @@ public class SubmitInvoice extends HttpServlet {
 	
 	private long getLatestInvoive(Registration registrationDetails, long invoiceTimeStamp){
 		
-		Calendar cal = new GregorianCalendar();
+		Calendar cal = Utils.getCalender();
+		Utils.setTimeZone();
 		cal.setTimeInMillis(invoiceTimeStamp);
 		cal.set(Calendar.DATE, 1); // We need current month and year don't care much about date but when we go back last last month have date as 1 helps
 		int year = cal.get(Calendar.YEAR);

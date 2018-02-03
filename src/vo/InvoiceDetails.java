@@ -1,7 +1,10 @@
 package vo;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import misc.Utils;
 
@@ -68,7 +71,10 @@ public class InvoiceDetails {
 		this._id = _id;
 	}
 	public String getInvoiceDateFormatted() {
-		return Utils.dateFormatDDMonYYYYhm.format(new Date(invoiceTime));
+		Calendar cal = Utils.getCalender();
+		Utils.setTimeZone();
+		cal.setTimeInMillis(invoiceTime);
+		return Utils.dateFormatDDMonYYYYhm.format(cal.getTimeInMillis());
 	}
 	public void setInvoiceDateFormatted(String invoiceDateFormatted) {
 		//this.invoiceDateFormatted = invoiceDateFormatted;
