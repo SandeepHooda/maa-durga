@@ -176,8 +176,8 @@ function pupulateInventoryItems(inventoryData){
 	
 	
 	let option = document.createElement('option');
-	/*option.text = option.value = pleaseSelect;
-	inventoryItems.add(option, countOfItems++);*/
+	option.text = option.value = pleaseSelect;
+	inventoryItems.add(option);
 	
 	
 	for(let i = 0; i < inventoryData.length;i++) {
@@ -200,6 +200,9 @@ function filterInventoryItems(filterText){
 	let inventoryItems = document.getElementById("inventoryItems");
 	
 	clearInventoryDropDown();
+	let option = document.createElement('option');
+	option.text = option.value = pleaseSelect;
+	inventoryItems.add(option);
 	for(let i = 0; i < inventoryItemsDB.length;i++) {
 		let productFullName = inventoryItemsDB[i].index +"."+ inventoryItemsDB[i].productDesc +" : " +inventoryItemsDB[i].inventoryDesc +" : "+inventoryItemsDB[i].modelNo;
 		if (productFullName.toLowerCase().indexOf(filterText.toLowerCase()) >=0){
@@ -572,8 +575,8 @@ function showRcentInvoices( rcentInvoices, asReport){
 		
 	}else {
 		document.getElementById("recentInvoices").innerHTML = html;
-		location.href = "#";
-		location.href = "#submitCartButton";
+		//location.href = "#";
+		//location.href = "#submitCartButton";
 	}
 	
 	
