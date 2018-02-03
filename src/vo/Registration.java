@@ -20,6 +20,7 @@ public class Registration implements Serializable{
 	private int invoiceStart;// Start no of invoice
 	private String phone;
 	private String email;
+	private String logo ="durga.png";
 	
 	private List<Product> products;
 	private List<Inventory> inventory;
@@ -106,6 +107,15 @@ public class Registration implements Serializable{
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

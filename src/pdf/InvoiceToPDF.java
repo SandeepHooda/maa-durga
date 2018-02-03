@@ -62,7 +62,7 @@ public class InvoiceToPDF {
 		   for(InvoiceItem aItem: allItems ){
 		    if(beginPage){
 		     beginPage = false;
-		     generateLayout(doc, cb); 
+		     generateLayout(doc, cb, registration.getLogo()); 
 		     generateHeader(doc, cb,invoiceDetails, registration);
 		     penPosY = 570; 
 		    }
@@ -102,7 +102,7 @@ public class InvoiceToPDF {
 		  return bos;
 	}
 
-		 private void generateLayout(Document doc, PdfContentByte cb)  {
+		 private void generateLayout(Document doc, PdfContentByte cb, String image)  {
 
 		  try {
 
@@ -170,7 +170,7 @@ public class InvoiceToPDF {
 		   cb.stroke();
 		   //add the images
 		   ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		   String path = classLoader.getResource("images/durga.png").getPath();
+		   String path = classLoader.getResource("images/"+image).getPath();
 		   Image companyLogo = Image.getInstance(path);
 		   companyLogo.setAbsolutePosition(20,675);
 		   companyLogo.scalePercent(25);
@@ -241,6 +241,8 @@ public class InvoiceToPDF {
 		   createHeadings(cb,registerationDetailsX,735,"GSTIN: "+registration.getGSTIN());
 		   createHeadings(cb,registerationDetailsX,720,"State: "+registration.getState());
 		   createHeadings(cb,registerationDetailsX,705,"PAN: "+registration.getPan());
+		   createHeadings(cb,registerationDetailsX,690,"Phone: "+registration.getPhone());
+		   createHeadings(cb,registerationDetailsX,675,"Email: "+registration.getEmail());
 		   
 		   
 		  
