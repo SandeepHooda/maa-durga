@@ -74,6 +74,7 @@ table textarea{
 	font-weight: bold;
 	float: right;
     color: #ffff00;
+    roght: 5px;
 }
 
 
@@ -162,7 +163,8 @@ nav {
     width: 200px;
    
     position: absolute;
-    right:0px;
+    left:20px;
+    top:0px;
     /* This trasform moves the drawer off canvas. */
     -webkit-transform: translate(-1300px, 0);
     transform: translate(-1300px, 0);
