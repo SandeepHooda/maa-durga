@@ -41,7 +41,7 @@ public class Inventory extends HttpServlet {
 			inventortWithStateCodes.setMyGstStateCode(registrationDetails.getGSTIN().substring(0,2));
 			inventortWithStateCodes.setInventoryItems(registrationDetails.getInventory());
 			Gson  json = new Gson();
-			response.addHeader("Cache-Control", "max-age=86400");//1 day
+			//response.addHeader("Cache-Control", "max-age=86400");//1 day
 			response.getWriter().append(json.toJson(inventortWithStateCodes));
 		}else {
 			response.getWriter().append("");

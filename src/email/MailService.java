@@ -29,18 +29,18 @@ import javax.mail.internet.MimeMultipart;
 
 public class MailService {
 	
-	private void sendSimpleMail() {
-	    // [START simple_example]
+	public void sendSimpleMail(String toAddress,  String from, String subject, String body) {
+	    
 	    Properties props = new Properties();
 	    Session session = Session.getDefaultInstance(props, null);
 
 	    try {
 	      Message msg = new MimeMessage(session);
-	      msg.setFrom(new InternetAddress("kusum.hooda@gmail.com", "Example.com Admin"));
+	      msg.setFrom(new InternetAddress("kusum.hooda@gmail.com", from));
 	      msg.addRecipient(Message.RecipientType.TO,
-	                       new InternetAddress("sonu.hooda@gmail.com", "Mr. User"));
-	      msg.setSubject("Your Example.com account has been activated");
-	      msg.setText("This is a test");
+	                       new InternetAddress(toAddress, ""));
+	      msg.setSubject(subject);
+	      msg.setText(body);
 	      Transport.send(msg);
 	    } catch (AddressException e) {
 	      // ...
@@ -63,8 +63,11 @@ public class MailService {
 	      msg.setFrom(new InternetAddress("kusum.hooda@gmail.com", from));
 	      msg.addRecipient(Message.RecipientType.TO,
 	                       new InternetAddress(toAddress, ""));
-	      msg.addRecipient(Message.RecipientType.CC,
-                  new InternetAddress(ccAddress, ""));
+	      if (null != ccAddress){
+	    	  msg.addRecipient(Message.RecipientType.CC,
+	                  new InternetAddress(ccAddress, ""));
+	      }
+	     
 	      msg.setSubject(subject);
 	      msg.setText(msgBody);
 
@@ -77,11 +80,14 @@ public class MailService {
 	      htmlPart.setContent(htmlBody, "text/html");
 	      mp.addBodyPart(htmlPart);
 
-	      MimeBodyPart attachment = new MimeBodyPart();
-	      InputStream attachmentDataStream = new ByteArrayInputStream(attachmentData);
-	      attachment.setFileName("sales.pdf");
-	      attachment.setContent(attachmentDataStream, "application/pdf");
-	      mp.addBodyPart(attachment);
+	      if (null != attachmentData){
+	    	  MimeBodyPart attachment = new MimeBodyPart();
+		      InputStream attachmentDataStream = new ByteArrayInputStream(attachmentData);
+		      attachment.setFileName("sales.pdf");
+		      attachment.setContent(attachmentDataStream, "application/pdf");
+		      mp.addBodyPart(attachment);
+	      }
+	     
 
 	      msg.setContent(mp);
 	      // [END multipart_example]

@@ -30,7 +30,7 @@ public class MangoDB {
 	public static String getDocumentWithQuery(String dbName, String collection,  String documentKey,String mlabApiKey, String query){
 		String httpsURL  = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+mlabApiKey;
 		if (null != documentKey){
-			httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+mlabApiKey+"&q=%7B%22_id%22:%22"+documentKey+"%22%7D";
+			httpsURL += "&q=%7B%22_id%22:%22"+documentKey+"%22%7D";
 		}
 		
 		if (null != query ){
@@ -93,8 +93,12 @@ public static void createNewCollectionWithData(String collectionToCreate, String
 	        }
 	}
 	
-	public static void insertData(String collection, String data, String dbName, String apiKey){
+	public static void insertOrUpdateData(String dbName,String collection, String data,  String apiKey, String documentKey){
 		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+apiKey;
+		if (null != documentKey){
+			httpsURL += "&q=%7B%22_id%22:%22"+documentKey+"%22%7D";
+			
+		}
 		
 		 try {
 			

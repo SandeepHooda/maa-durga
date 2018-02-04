@@ -21,6 +21,7 @@ public class Registration implements Serializable{
 	private String phone;
 	private String email;
 	private String logo ="durga.png";
+	private String ownerName;
 	
 	private List<Product> products;
 	private List<Inventory> inventory;
@@ -116,6 +117,12 @@ public class Registration implements Serializable{
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public String getOwnerName() {
+		return ownerName;
+	}
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 
 }

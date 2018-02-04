@@ -7,6 +7,37 @@ let myCartManual = [];
 let maxColumnsInInvoiceGrid = 11;//don't change this else in manual grid all mataematic operation slike calc tax and total ect wil disturb
 let maxRowsInInvoiceGrid = 10;
 let invoiceView = false;
+function logOut(){
+	
+	let xhr = null;
+	if (window.XMLHttpRequest) {
+	    // code for modern browsers
+		xhr = new XMLHttpRequest();
+	 } else {
+	    // code for old IE browsers
+		 xhr = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4 ) {
+			if (this.status == 200){
+				localStorage.removeItem("userID");
+				localStorage.removeItem("pwd");
+				location.reload();
+			}else {
+				localStorage.removeItem("userID");
+				localStorage.removeItem("pwd");
+				location.reload();
+				
+			}
+		     
+		   }
+		
+	  
+	  };
+	xhr.open("GET", "/Logout", true);
+	xhr.send();
+	
+}
 function toggleInvoice_Report(){
 	invoiceView = !invoiceView;
 	if (invoiceView){

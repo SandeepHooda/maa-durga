@@ -34,6 +34,13 @@
     width: 200px;
     height: 30px; 
 }
+.logOut{
+	font-size: 20px;
+	border-radius: 25px;
+    background: #c0c0c0;
+    padding: 10px; 
+    float: right;
+}
 .bigIconRed{
 	font-size: 20px;
 	border-radius: 25px;
