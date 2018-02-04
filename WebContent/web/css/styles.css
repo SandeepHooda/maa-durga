@@ -72,7 +72,7 @@ table textarea{
 
 .logOut{
 	font-weight: bold;
-	/*float: right;*/
+	float: right;
     color: #ffff00;
 }
 
@@ -148,7 +148,7 @@ nav {
  .hamburger {
 	display :block;
 	position: absolute;
-	right: 5px;
+	left: 5px;
 	top:5px;
 	}
 	
