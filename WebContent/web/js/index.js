@@ -116,6 +116,7 @@ function loginWithUserIDAndPwd(userID , pwd){
 				postLogin();
 				localStorage.setItem("userID",this.responseText);
 				localStorage.setItem("pwd",pwd);
+				document.getElementById("signOff").innerHTML = this.responseText +" Logout&#x26DF;" ;
 				
 			}else {
 				document.getElementById("login").style = "display: block;"
