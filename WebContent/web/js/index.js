@@ -619,10 +619,10 @@ function showRcentInvoices( rcentInvoices, asReport){
 	}
 	html += "</table>";
 	if (asReport){
-		//document.getElementById("reports").innerHTML = html;
+		document.getElementById("reports").innerHTML = html;
 		
 	}else {
-		//document.getElementById("recentInvoices").innerHTML = html;
+		document.getElementById("recentInvoices").innerHTML = html;
 		//location.href = "#";
 		//location.href = "#submitCartButton";
 	}
