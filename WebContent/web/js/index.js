@@ -499,6 +499,13 @@ function submitCart(){
 
 function submitInvoice(invoiceDetails){
 	
+	var response = confirm("Submit invoice?");
+	if (response == true) {
+		
+	} else {
+	    return;
+	}
+	
 	if ( document.getElementById("submitCartButton").classList.contains('bigIcon') ){
 		document.getElementById("submitCartButton").classList.remove('bigIcon');
 		document.getElementById("submitCartButton").classList.add('bigIconGrey');
