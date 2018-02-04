@@ -12,9 +12,9 @@ function sendResetLink(){
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 ) {
 			if (this.status == 200){
-				
+				document.getElementById("status").innerHTML ="Please check your email to reset password.";
 			}else {
-								
+				document.getElementById("status").innerHTML ="Please check your email to reset password!";				
 			}
 		     
 		   }
@@ -59,9 +59,9 @@ function ChangePassword(){
 			xhr.onreadystatechange = function() {
 				if (this.readyState == 4 ) {
 					if (this.status == 200){
-						
+						document.getElementById("status").innerHTML ="Password changed";
 					}else {
-										
+						document.getElementById("status").innerHTML =this.responseText;				
 					}
 				     
 				   }

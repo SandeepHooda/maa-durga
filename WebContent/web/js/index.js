@@ -645,7 +645,7 @@ function getRecentInvoices(count){
 		
 	  
 	  };
-	xhr.open("GET", "/RecentInvoices?count="+count, true);
+	xhr.open("GET", "/RecentInvoices?count="+count+"&random="+Math.random(), true);
 	xhr.send();
 	
 	

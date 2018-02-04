@@ -50,11 +50,14 @@ public class ResetLink extends HttpServlet {
 			resetPasswordvo.setUuid(uuid);
 			resetPasswordvo.setGenerateTime( new Date().getTime());
 			request.getSession().setAttribute(uuid, resetPasswordvo);
+			String resetPasswordvoStr = json.toJson(resetPasswordvo, new TypeToken<ResetPassword>() {}.getType());
+			MangoDB.createNewCollectionWithData("gst-registration", "reset-pwd",resetPasswordvoStr,MangoDB.mlabKeySonu);
 			System.out.println("uuid ="+uuid);
 			String link = "Dear "+registrationDetails.getOwnerName()+","+
 					"<br/><br/> On your request we have sent you a link to reset your password. Please click on the below link and reset your password. For security reasons the link is valid only for 10 minutes and the link will only work from the machine from where you request it."+
 					"<br/><br/>"+
 					"<a href='https://maa-durga-electronics.appspot.com/web/ChangePassword.html?ref="+uuid+"'> Reset password </a>"+
+					"<br/><br/> Your user ID is "+registrationDetails.getUserID()+"."+
 					"<br/><br/> Warm Regards";
 			new MailService().sendMultipartMail(registrationDetails.getEmail(), null,registrationDetails.getbName(),null, "Reset your password", link);
 		}

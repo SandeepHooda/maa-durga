@@ -83,7 +83,7 @@ public class SubmitInvoice extends HttpServlet {
 			MangoDB.createNewCollectionWithData(""+month, registrationDetails.getMdbInvoiceStore()+"-"+year, json.toJson(list, new TypeToken<List<InvoiceDetails>>() {}.getType()), MangoDB.mlabKeySonu);
 			This is a test code
 			*/
-			MangoDB.createNewCollectionWithData(""+month, registrationDetails.getMdbInvoiceStore()+"-"+year, json.toJson(invoiceDetails, InvoiceDetails.class), MangoDB.mlabKeySonu);
+			MangoDB.createNewCollectionWithData(registrationDetails.getMdbInvoiceStore()+"-"+year,""+month,  json.toJson(invoiceDetails, InvoiceDetails.class), MangoDB.mlabKeySonu);
 			response.getWriter().append(""+latestInvoiceNo);
 		}
 		

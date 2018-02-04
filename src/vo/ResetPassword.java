@@ -1,6 +1,13 @@
 package vo;
 
-public class ResetPassword {
+import java.io.Serializable;
+
+public class ResetPassword implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String _id;
 	private String uuid;
 	private String email;
 	private long generateTime;
@@ -10,6 +17,7 @@ public class ResetPassword {
 	}
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+		this._id = uuid;
 	}
 	public String getEmail() {
 		return email;
@@ -28,6 +36,12 @@ public class ResetPassword {
 	}
 	public void setValidTillMinutes(int validTillMinutes) {
 		this.validTillMinutes = validTillMinutes;
+	}
+	public String get_id() {
+		return _id;
+	}
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 
 }

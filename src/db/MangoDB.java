@@ -72,7 +72,7 @@ public class MangoDB {
 	
 	
 	
-public static void createNewCollectionWithData(String collectionToCreate, String dbName, String data, String key){
+public static void createNewCollectionWithData(String dbName,String collectionToCreate,  String data, String key){
 		
 		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collectionToCreate+"?apiKey="+key;
 		
