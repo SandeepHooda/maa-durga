@@ -6,7 +6,7 @@ let myCart = [];
 let myCartManual = [];
 let maxColumnsInInvoiceGrid = 11;//don't change this else in manual grid all mataematic operation slike calc tax and total ect wil disturb
 let maxRowsInInvoiceGrid = 10;
-let invoiceView = false;
+
 function logOut(){
 	
 	let xhr = null;
@@ -38,19 +38,15 @@ function logOut(){
 	xhr.send();
 	
 }
-function toggleInvoice_Report(){
-	invoiceView = !invoiceView;
-	if (invoiceView){
+function showInvoice(){
 		document.getElementById("invoiceView").style = "display: block;"
 		document.getElementById("reportView").style = "display: none;" 
-		document.getElementById("toggle").innerHTML = "Show Reports";
-	}else {
-		document.getElementById("reportView").style = "display: block;"
-		document.getElementById("invoiceView").style = "display: none;" ;
-		document.getElementById("toggle").innerHTML = "Show Invoice";
 	}
-	
+function showReports(){
+		document.getElementById("reportView").style = "display: block;"
+		document.getElementById("invoiceView").style = "display: none;" ;	
 }
+
 
 function fetchReport(format){
 	  let monthSelect = document.getElementById("reportMonths");
@@ -116,7 +112,7 @@ function loginWithUserIDAndPwd(userID , pwd){
 				postLogin();
 				localStorage.setItem("userID",this.responseText);
 				localStorage.setItem("pwd",pwd);
-				document.getElementById("signOff").innerHTML = this.responseText +" Logout&#x26DF;" ;
+				document.getElementById("signOff").innerHTML = this.responseText +" Logout" ;
 				
 			}else {
 				document.getElementById("login").style = "display: block;"
@@ -474,8 +470,21 @@ function postLogin(){
 	fetchInventory();
 	getRecentInvoices(10);
 }
+function tabMenu(){
+	var menu = document.querySelector('#menu');
+    var main = document.querySelector('main');
+    var drawer = document.querySelector('.nav');
+    menu.addEventListener('click', function(e) {
+      drawer.classList.toggle('open');
+      e.stopPropagation();
+    });
+    main.addEventListener('click', function() {
+      drawer.classList.remove('open');
+    });
+}
 function onBodyLoad(){
-	toggleInvoice_Report();
+	tabMenu();
+	showInvoice();
 	generateManualCart();
 	let userID = localStorage.getItem("userID");
 	

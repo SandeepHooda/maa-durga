@@ -1,5 +1,25 @@
+.container{
+width:100%;
+display:flex;
+flex-wrap:wrap;
+background-color: #283e60;
+color: #FFFFFF;
+}
+a {
+    text-decoration: none;
+    color: #ffff00;
+}
 .loginPage{
-	line-height: 3;
+	line-height: 2;
+}
+table input{
+	width: 100%;
+}
+table select{
+	width: 100%;
+}
+table textarea{
+	width: 100%;
 }
 
 .grid{
@@ -35,11 +55,9 @@
     height: 30px; 
 }
 .logOut{
-	font-size: 20px;
-	border-radius: 25px;
-    background: #c0c0c0;
-    padding: 10px; 
-    float: right;
+	font-weight: bold;
+	float: right;
+    color: #ffffff;
 }
 .bigIconRed{
 	font-size: 20px;
@@ -60,3 +78,89 @@
     width: 100px;
     height: 50px; 
 }
+
+/*Styles related to hamburger*/
+
+nav {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+ /* background-color: #73AD21;*/
+ 
+}
+.nav__list {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.nav a {
+  text-decoration: none;
+  color: #ffffff;
+}
+.nav__item {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 49%;
+  text-align: center;
+  line-height: 24px;
+  padding: 24px;
+  text-transform: uppercase;
+  border-right:1px solid #E0E0E0;
+ /* border-bottom:1px solid #E0E0E0;
+  border-top:1px solid #E0E0E0;*/
+  
+}
+nav {
+  box-shadow: 0 12px 5px rgba(0, 0, 0, 0.26);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+ .hamburger{
+ display:none;
+ } 
+@media screen and (max-width: 650px){
+ .nav__item{
+ 	display: list-item;
+    border-bottom: 1px solid #E0E0E0;
+    width: 100%;
+    background-color :#283e60;
+    text-align: left;
+    border-left:1px solid #E0E0E0;
+    line-height: 24px;
+    padding: 10px;
+ }
+ .hamburger {
+	display :block;
+	position: absolute;
+	right: 5px;
+	top:5px;
+	}
+	
+	.hamburger svg {
+    width: 32px;
+    fill: #E0E0E0;
+  }
+   .nav {
+    z-index: 10;
+    background-color: #fff;
+    width: 200px;
+   
+    position: absolute;
+    right:0px;
+    /* This trasform moves the drawer off canvas. */
+    -webkit-transform: translate(-1300px, 0);
+    transform: translate(-1300px, 0);
+    /* Optionally, we animate the drawer. */
+    transition: transform 0.0s ease;
+  }
+  
+  .nav.open {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }

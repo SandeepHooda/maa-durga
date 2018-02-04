@@ -9,6 +9,7 @@
 <script src="web/js/index.js"></script>
 </head>
 <body onload="onBodyLoad()">
+<div class="container">
 	<!-- Login  -->
 	<div id="login" name="login">
 	<table class="loginPage" >
@@ -34,44 +35,74 @@
 	</div>
 
 	<!-- Sales details -->
+	<main>
+	<div id="salesForm" name="salesForm" >
 	
-	<div id="salesForm" name="salesForm">
+	<!-- Hamburger  -->
+	<header>
+	<span>Author : <a href="http://glennsmith.me" target="_blank">Sandeep Hooda</a></span>
+  
+	  <a id="menu" class="hamburger">
+	          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+	            <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
+	          </svg>
+	        </a>
+	</header>
+	<nav id="drawer"  class="nav" >
+  <ul class="nav__list" >
+    <li class="nav__item"><a href="#Invoice" onclick="showInvoice()">Invoice</a></li>
+    <li class="nav__item"><a href="#Reports" onclick="showReports()">Reports</a></li>
+   
+
+  </ul>
+</nav> 
+	<!-- Hamburger  -->
 	<br/>
-	<span id="toggle" name="toggle" onclick="toggleInvoice_Report()" class="bigIcon">Show Reports</span>
-	<span id="signOff" name="signOff" onclick="logOut()" class="logOut">Logout&#x26DF;</span>
+	
+	<a id="signOff" name="signOff" onclick="logOut()" class="logOut">Logout</a>
 	<br/><br/><br/><br/>
 	
-	<div id="reportView" name="reportView">
-		<select id="reportMonths" name="reportMonths" >
-			  <option value="1">Jan</option>
-			  <option value="2">Feb</option>
-			  <option value="3">Mar</option>
-			  <option value="4">Apr</option>
-			  <option value="5">May</option>
-			  <option value="6">Jun</option>
-			  <option value="7">Jul</option>
-			  <option value="8">Aug</option>
-			  <option value="9">Sep</option>
-			  <option value="10">Oct</option>
-			  <option value="11">Nov</option>
-			  <option value="12">Dec</option>
-		</select> 
-			&nbsp;&nbsp;&nbsp;&nbsp; 
+	<div id="reportView" name="reportView" class="fullWidth">
+	<table class="loginPage" class="fullWidth">
+	<tr>
+		<td>
+			<select id="reportMonths" name="reportMonths" >
+				  <option value="1">Jan</option>
+				  <option value="2">Feb</option>
+				  <option value="3">Mar</option>
+				  <option value="4">Apr</option>
+				  <option value="5">May</option>
+				  <option value="6">Jun</option>
+				  <option value="7">Jul</option>
+				  <option value="8">Aug</option>
+				  <option value="9">Sep</option>
+				  <option value="10">Oct</option>
+				  <option value="11">Nov</option>
+				  <option value="12">Dec</option>
+			</select> 
+		</td> 
+		<td>
 		<select id="reportYear" name="reportYear" onchange="itemSelected()">
 			  <option value="2018">2018</option>
 			  <option value="2019">2019</option>
 			 
 		</select>
-		<br/><br/><br/><br/>
-		<span onclick="fetchReport('html')" class="bigIcon">Get Report &#x2708;</span>
-		<span onclick="fetchReport('csv')" class="bigIcon">Export to XLS &#x2708;</span>
+		</td>
+	<tr>
+		<td>
+			<span onclick="fetchReport('html')" class="bigIcon">Get Report &#x2708;</span>
+		</td>
+		<td>
+			<span onclick="fetchReport('csv')" class="bigIcon">Export to XLS &#x2708;</span>
 		
-		</br/></br/><br/>
+		</td>
+	</tr>
+	</table>
 			<div id="reports" name="reports"></div>
 	</div> <!--  Sales /repors -->
-	<div id="invoiceView" name="invoiceView">
+	<div id="invoiceView" name="invoiceView" >
 	
-			<table class="loginPage" >
+			<table class="loginPage" class="fullWidth">
 				<tr>
 				 	<td> <B>Customer Name: </B></td> <td> <input type="text" name="customerName" id="customerName"/></td> 
 				 </tr>
@@ -119,9 +150,10 @@
 			<div id="recentInvoices" name="recentInvoices"></div>
 		
 		</div><!--  sales/Invoice view -->	
+		
 	</div> <!--  Sales form -->
-	
-	
+	</main>
+</div><!-- Container -->	
 	
 </body>
 </html>
