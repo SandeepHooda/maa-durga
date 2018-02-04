@@ -36,12 +36,11 @@
 
 	<!-- Sales details -->
 	<main>
-	<div id="salesForm" name="salesForm" >
+	<div id="salesForm" name="salesForm" class="salesForm">
 	
 	<!-- Hamburger  -->
 	<header>
-	<span>Author : <a href="http://glennsmith.me" target="_blank">Sandeep Hooda</a></span>
-  
+	
 	  <a id="menu" class="hamburger">
 	          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 	            <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
@@ -102,12 +101,12 @@
 	</div> <!--  Sales /repors -->
 	<div id="invoiceView" name="invoiceView" >
 	
-			<table class="loginPage" class="fullWidth">
+			<table class="loginPage" >
 				<tr>
 				 	<td> <B>Customer Name: </B></td> <td> <input type="text" name="customerName" id="customerName"/></td> 
 				 </tr>
 				 <tr>
-				 	 <td> <B>Shipping Address:</B></td> <td>  <textarea rows="6" cols="30" name="shippingAddress" id="shippingAddress"></textarea></td> 
+				 	 <td> <B>Shipping Address:</B></td> <td>  <textarea rows="6"  name="shippingAddress" id="shippingAddress"></textarea></td> 
 				  </tr>
 				  	<td> <B>State:</B></td> <td> <select id="shippingState" name="shippingState" onchange="saveFavouriteStateCode()"></select></td>
 				  <tr>
@@ -128,21 +127,21 @@
 				 
 				 
 			</table>
-			<div class="left-140"><span onclick="addToCart()" class="bigIcon">Add &#x271A;</span></div>
+			<div ><span onclick="addToCart()" class="bigIcon">Add &#x271A;</span></div>
 			<br/><br/><br/>
 			<span  name="loginStatus" id="loginStatus"> </span>
 			
 			<div id="cart" name="cart"></div>
 			
 			<br/><br/>
-			<div class="left-140"><span onclick="toggleManualGrid()" class="bigIcon">&#x270D;</span></div>
+			<div ><span onclick="toggleManualGrid()" class="bigIcon">&#x270D;</span></div>
 			
 			<br/><br/><br/>
 			
 			<div id="cartManualDiv" name="cartManualDiv"></div>
 			
 			<br/></br/>
-			<div class="left-140">	<span id="submitCartButton" name="submitCartButton" onclick="submitCart()" class="bigIcon">Submit &#x2705;</span>	</div>
+			<div >	<span id="submitCartButton" name="submitCartButton" onclick="submitCart()" class="bigIcon">Submit &#x2705;</span>	</div>
 			<div id="submitInvoiceResult" name="submitInvoiceResult"></div>
 			<br/></br/>
 			<B>Send Email: </B> <input type="text" name="toAddress" id="toAddress"/>

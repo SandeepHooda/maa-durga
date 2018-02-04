@@ -1,4 +1,4 @@
-.container{
+body{
 width:100%;
 display:flex;
 flex-wrap:wrap;
@@ -8,6 +8,9 @@ color: #FFFFFF;
 a {
     text-decoration: none;
     color: #ffff00;
+}
+.salesForm{
+	min-width: 500px;
 }
 .loginPage{
 	line-height: 2;
@@ -125,6 +128,9 @@ nav {
  display:none;
  } 
 @media screen and (max-width: 650px){
+	.salesForm{
+	min-width: 100px;
+}
  .nav__item{
  	display: list-item;
     border-bottom: 1px solid #E0E0E0;
