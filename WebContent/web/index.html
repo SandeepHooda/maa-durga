@@ -9,6 +9,7 @@
 <script src="web/js/index.js"></script>
 </head>
 <body onload="onBodyLoad()">
+
 <div class="container">
 	<!-- Login  -->
 	<div id="login" name="login">
@@ -17,21 +18,22 @@
 		 	<td> <B>User Name: </B></td> <td> <input type="text" name="userName" id="userName"/></td> 
 		 </tr>
 		 <tr>
-		 	 <td> <B>Password:</B></td> <td>  <input type="password" name="pwd" id="pwd" onkeyup="showPassword()"/></td> 
+		 	 <td> <B>Password:</B></td> <td>  <input type="password" name="pwd" id="pwd" onkeyup="showPassword(event)"/></td> 
 		  </tr>
+		  
 		  <tr>
-		 	 <td><span onmousedown="toggleShowPassword()"><B>Show Password:</B></span><input type="checkbox" name="showPasswordCheckBox" id="showPasswordCheckBox" onchange="showPassword()" /> </td> 
-		 	 <td>  <span name="showPasswordSpan" id="showPasswordSpan"></span></td> 
-		  </tr>
-		  <tr>
-		  <td></td>
-		  	<td > <input type="submit" value="Submit" onclick="login()"> </td> 
+		  <td> <input type="submit" value="Reset password" onclick="resetPassword()" class="bigIcon"></td>
+		  	<td > <input type="submit" value="Submit" onclick="login()" class="bigIcon"> </td> 
 		  </tr>
 		  <tr>
 		  	<td colspan="2" name="loginStatus" id="loginStatus"> <span > </td> 
 		  </tr>
 	</table>
-	<a href="/web/reset.html">Reset password</a>
+
+		 	 <input type="checkbox" name="showPasswordCheckBox" id="showPasswordCheckBox" onchange="showPassword(event)" >
+		 	 <label for="showPasswordCheckBox" ><B>Show Password:</B></label>
+		 	 <span name="showPasswordSpan" id="showPasswordSpan"></span>
+		
 	</div>
 
 	<!-- Sales details -->
@@ -89,10 +91,10 @@
 		</td>
 	<tr>
 		<td>
-			<span onclick="fetchReport('html')" class="bigIcon">Get Report &#x2708;</span>
+			<input type="submit" value="Get Report &#x2708;" onclick="fetchReport('html')" class="bigIcon">
 		</td>
 		<td>
-			<span onclick="fetchReport('csv')" class="bigIcon">Export to XLS &#x2708;</span>
+			<input type="submit" value="Export to XLS &#x2708;" onclick="fetchReport('csv')" class="bigIcon">
 		
 		</td>
 	</tr>
@@ -127,21 +129,21 @@
 				 
 				 
 			</table>
-			<div ><span onclick="addToCart()" class="bigIcon">Add &#x271A;</span></div>
-			<br/><br/><br/>
+			<div class="centerDiv"><input type="submit" value="Add to Cart &#x271A;" onclick="addToCart()" class="bigIcon"></div>
+			
 			<span  name="loginStatus" id="loginStatus"> </span>
 			
 			<div id="cart" name="cart"></div>
 			
-			<br/><br/>
-			<div ><span onclick="toggleManualGrid()" class="bigIcon">&#x270D;</span></div>
+		
+			<div class="centerDiv"><input type="submit" value="Manual&#x270D;" onclick="toggleManualGrid()" class="bigIcon"></div>
 			
-			<br/><br/><br/>
+			
 			
 			<div id="cartManualDiv" name="cartManualDiv"></div>
 			
-			<br/></br/>
-			<div >	<span id="submitCartButton" name="submitCartButton" onclick="submitCart()" class="bigIcon">Submit &#x2705;</span>	</div>
+			
+			<div class="centerDiv" >	<input type="submit" value="Submit &#x2705;" id="submitCartButton" name="submitCartButton" onclick="submitCart()" class="bigIcon"></span>	</div>
 			<div id="submitInvoiceResult" name="submitInvoiceResult"></div>
 			<br/></br/>
 			<B>Send Email: </B> <input type="text" name="toAddress" id="toAddress"/>

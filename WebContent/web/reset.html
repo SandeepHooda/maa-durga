@@ -9,13 +9,23 @@
 <script src="/web/js/reset.js"></script>
 </head>
 <body onload="onBodyLoad()">
-<br/><br/>
-	Email Address: <input type="text" name="resetEmailInput" id="resetEmailInput"/>
-	<span id="resetButton" name="resetButton" onclick="sendResetLink()" class="bigIcon">Send Reset link</span>
+<table >
+	<tr>
+		<td>Email Address:</td>
+		<td><input type="text" name="resetEmailInput" id="resetEmailInput"></td>
+	</tr>
+	<tr>
+		
+		<td><div class="leftDiv"><input type="submit" value="Back To Login"  onclick="backToLogin()" class="bigIcon"></div></td>
+		<td><div class="leftDiv"><input type="submit" value="Send Reset link"  onclick="sendResetLink()" class="bigIcon"></div></td>
+	</tr>
+</table>
+	 
 	
-	<br/><br/><br/>
-	<div><span id="backToLogin" name="backToLogin" onclick="backToLogin()" class="bigIcon">BackToLogin</span></div>
-	<br/><br/><br/>
+	
+
+	
+	
 	<div id="status" name="status"></div>
 </body>
 </html>

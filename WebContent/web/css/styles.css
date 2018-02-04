@@ -31,7 +31,7 @@ table textarea{
 	
 }
 .gridLargeCol{
-	width: 150px;
+	width: 50px;
 	height: 60px;
 }
 .gridSmallCol{
@@ -41,38 +41,42 @@ table textarea{
 	width: 50px;
 	height: 60px;
 }
+#showPasswordSpan {
+	padding-left: 30px;
+}
+.centerDiv {
+	margin: auto;
+    width: 50%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.leftDiv {
+	margin: auto;
+    
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
 .bigIcon{
 	font-size: 20px;
 	border-radius: 25px;
     background: #73AD21;
-    padding: 10px; 
-    width: 200px;
-    height: 20px; 
+    padding: 10px;     
 }
 .bigIconGrey{
 	font-size: 20px;
 	border-radius: 25px;
     background: #c0c0c0;
     padding: 10px; 
-    width: 200px;
-    height: 30px; 
+        
 }
+
 .logOut{
 	font-weight: bold;
-	float: right;
-    color: #ffffff;
+	/*float: right;*/
+    color: #ffff00;
 }
-.bigIconRed{
-	font-size: 20px;
-	border-radius: 25px;
-    background: #ff0000;
-    padding: 10px; 
-    width: 200px;
-    height: 30px; 
-}
-.left-140{
-	    padding-left: 140px;
-}
+
+
 .smallIcon{
 	font-size: 20px;
 	border-radius: 15px;

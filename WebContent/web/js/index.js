@@ -137,17 +137,37 @@ function login(){
 
 }
 
-function showPassword(){
-	console.log(document.getElementById("showPasswordCheckBox").checked)
+function showPassword(event){
+	if (event){
+		var KeyID = event.keyCode;
+		   switch(KeyID)
+		   {
+		      case 8:
+		    	  document.getElementById("inventoryInput").value = ""; //back space 
+		    	  pupulateInventoryItems(inventoryItemsDB);
+		      break; 
+		      case 13:
+		    	  login();//Enter key
+		      break; 
+		      default:
+		    	  filterInventoryItems(document.getElementById("inventoryInput").value);
+		    	  break;
+		   }
+	}
+	
+	
 	if (document.getElementById("showPasswordCheckBox").checked ){
 		document.getElementById("showPasswordSpan").innerHTML  = document.getElementById("pwd").value ;
 	}else {
 		document.getElementById("showPasswordSpan").innerHTML = "";
 	}
 }
+function resetPassword(){
+	window.open("/web/reset.html", '_self');
+}
 function toggleShowPassword(){
 	document.getElementById("showPasswordCheckBox").checked = !document.getElementById("showPasswordCheckBox").checked;
-	 showPassword();
+	 showPassword(null);
 }
 
 function fetchInventory(){
