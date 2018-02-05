@@ -6,7 +6,7 @@ let myCart = [];
 let myCartManual = [];
 let maxColumnsInInvoiceGrid = 11;//don't change this else in manual grid all mataematic operation slike calc tax and total ect wil disturb
 let maxRowsInInvoiceGrid = 10;
-
+let ecommerce = false;
 function logOut(){
 	
 	let xhr = null;
@@ -298,7 +298,7 @@ function addToCart(){
 	selectedProduct.taxableValue = selectedProduct.quantity * selectedProduct.rate;
 	
 
-	if (myGstStateCode == shippingStateCode){
+	if (myGstStateCode == shippingStateCode && !ecommerce){
 		selectedProduct.igst = 0;
 		
 	}else {
@@ -535,7 +535,12 @@ function submitCart(){
 	document.getElementById("submitInvoiceResult").innerHTML = "";
 	extractManualCartItems();
 	let invoiceDetails = {};
-	invoiceDetails.modeOfSale = "OE";//E- ecommerce OE other than Ecommerce
+	if (ecommerce){
+		invoiceDetails.modeOfSale = "E";
+	}else {
+		invoiceDetails.modeOfSale = "OE";//E- ecommerce OE other than Ecommerce
+	}
+	
 	invoiceDetails.invoiceTime = new Date().getTime();
 	invoiceDetails.myCartManual = myCartManual;
 	invoiceDetails.myCart = myCart;
@@ -629,6 +634,11 @@ function sendEmail (invoiceTime, invoiceNo){
 function print (invoiceTime, invoiceNo){
 	
 	window.open('/Print?invoiceNo='+invoiceNo+"&time="+invoiceTime, '_blank');
+}
+function setEcommerce(event){
+	ecommerce = !ecommerce;
+	myCart = [];
+	publishCartItems();
 }
 function showRcentInvoices( rcentInvoices, asReport){
 	
