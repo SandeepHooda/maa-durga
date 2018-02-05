@@ -626,6 +626,10 @@ function sendEmail (invoiceTime, invoiceNo){
 	let url = "/Print?docType=email&invoiceNo="+invoiceNo+"&time="+invoiceTime+"&toAddress="+toAddress;
 	window.open(url, '_blank');
 }
+function print (invoiceTime, invoiceNo){
+	
+	window.open('/Print?invoiceNo='+invoiceNo+"&time="+invoiceTime, '_blank');
+}
 function showRcentInvoices( rcentInvoices, asReport){
 	
 	let html = "<table class='grid' border='1' >";
@@ -634,8 +638,8 @@ function showRcentInvoices( rcentInvoices, asReport){
 	for (let i=0;i<rcentInvoices.length;i++){
 		var date = new Date(rcentInvoices[i].invoiceTime);
 		html += "<tr> <td>"+rcentInvoices[i].invoiceNo+"</td><td>"+date.getDate()+"-"+months[date.getMonth()]+"</td><td>"+rcentInvoices[i].customerName+"</td>" +
-				"<td class='gridLargeCol'><a  target='_blank' href='/Print?invoiceNo="+rcentInvoices[i].invoiceNo+"&time="+rcentInvoices[i].invoiceTime+"'>Print</a></td>" +
-				"<td class='gridLargeCol'><span onclick='sendEmail("+rcentInvoices[i].invoiceTime+", "+rcentInvoices[i].invoiceNo+")' class='bigIcon' >&#x2709;</span></td></tr>";
+				"<td class='gridLargeCol'><input type='submit' value='&#x1f5b6;' onclick='print("+rcentInvoices[i].invoiceTime+", "+rcentInvoices[i].invoiceNo+")'  class='bigIcon'></td>" +
+				"<td class='gridLargeCol'><input type='submit' value='&#x2709;' onclick='sendEmail("+rcentInvoices[i].invoiceTime+", "+rcentInvoices[i].invoiceNo+")'   class='bigIcon'></td></tr>";
 	}
 	html += "</table>";
 	if (asReport){
