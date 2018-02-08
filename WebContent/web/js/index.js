@@ -194,7 +194,7 @@ function fetchInventory(){
 		
 	  
 	  };
-	xhr.open("GET", "/Inventory", true);
+	xhr.open("GET", "/Inventory?random="+Math.random(), true);
 	xhr.send();
 }
 
@@ -285,7 +285,12 @@ function itemSelected(){
 	let index = parseInt(value.substring(0, value.indexOf(".")));
 	selectedProductFromList = inventoryItemsDB[index-1];
 	if ( pleaseSelect != selectedProductFromList){
-		document.getElementById("price").value = selectedProductFromList.salesPriceRegularWithoutTax;
+		if (ecommerce){
+			document.getElementById("price").value = selectedProductFromList.salesPriceOnlineWithoutTax;
+		}else {
+			document.getElementById("price").value = selectedProductFromList.salesPriceRegularWithoutTax;
+		}
+		
 	}
 }
 
@@ -639,6 +644,8 @@ function setEcommerce(event){
 	ecommerce = !ecommerce;
 	myCart = [];
 	publishCartItems();
+	 document.getElementById("inventoryItems").options[0].selected=true;
+	 document.getElementById("price").value = 0;
 }
 function showRcentInvoices( rcentInvoices, asReport){
 	

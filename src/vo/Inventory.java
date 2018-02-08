@@ -11,7 +11,7 @@ public class Inventory  extends Product implements Serializable{
 	private String inventoryDesc;
 	private String modelNo;
 	private int purchasePriceWithoutTax;
-	private int salesPriceAmazonWithoutTax;
+	private int salesPriceOnlineWithoutTax;
 	private int salesPriceRegularWithoutTax;
 	public String getHsn() {
 		return hsn;
@@ -32,12 +32,7 @@ public class Inventory  extends Product implements Serializable{
 	public void setPurchasePriceWithoutTax(int purchasePriceWithoutTax) {
 		this.purchasePriceWithoutTax = purchasePriceWithoutTax;
 	}
-	public int getSalesPriceAmazonWithoutTax() {
-		return salesPriceAmazonWithoutTax;
-	}
-	public void setSalesPriceAmazonWithoutTax(int salesPriceAmazonWithoutTax) {
-		this.salesPriceAmazonWithoutTax = salesPriceAmazonWithoutTax;
-	}
+	
 	public int getSalesPriceRegularWithoutTax() {
 		return salesPriceRegularWithoutTax;
 	}
@@ -49,6 +44,12 @@ public class Inventory  extends Product implements Serializable{
 	}
 	public void setInventoryDesc(String inventoryDesc) {
 		this.inventoryDesc = inventoryDesc;
+	}
+	public int getSalesPriceOnlineWithoutTax() {
+		return salesPriceOnlineWithoutTax;
+	}
+	public void setSalesPriceOnlineWithoutTax(int salesPriceOnlineWithoutTax) {
+		this.salesPriceOnlineWithoutTax = salesPriceOnlineWithoutTax;
 	}
 
 }
