@@ -336,7 +336,9 @@ function showInvoiceTotal(){
 	for (let i=0;i<myCartManual.length;i++){
 		myManualCartTotal += myCartManual[i].rowTotal;
 	}
-	document.getElementById("invoiceTotal").innerHTML = "Invoice Total: "+(myCartTotal + myManualCartTotal);
+	let totalText = "Invoice Total: "+(myCartTotal + myManualCartTotal).toFixed(2);
+	document.getElementById("invoiceTotal").innerHTML = totalText;
+	document.getElementById("invoiceTotal2").innerHTML = totalText;
 }
 function publishCartItems(){
 	myCartTotal = 0;
