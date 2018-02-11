@@ -7,6 +7,8 @@ let myCartManual = [];
 let maxColumnsInInvoiceGrid = 11;//don't change this else in manual grid all mataematic operation slike calc tax and total ect wil disturb
 let maxRowsInInvoiceGrid = 10;
 let ecommerce = false;
+let myCartTotal =0;
+let myManualCartTotal =0;
 function logOut(){
 	
 	let xhr = null;
@@ -328,19 +330,29 @@ function deleteFromCart(itemID){
 	    
 	}
 }
+function showInvoiceTotal(){
+	extractManualCartItems();
+	 myManualCartTotal =0;
+	for (let i=0;i<myCartManual.length;i++){
+		myManualCartTotal += myCartManual[i].rowTotal;
+	}
+	document.getElementById("invoiceTotal").innerHTML = "Invoice Total: "+(myCartTotal + myManualCartTotal);
+}
 function publishCartItems(){
+	myCartTotal = 0;
 	let cartItemsHtml = "<table class='grid' border='1' >";
 	cartItemsHtml += "<tr class='gridLargeCol'> <th> Item  </th><th> HSN  </th> <th> Quantity </th> <th> Rate </th> <th class='gridSmallCol'> Taxable Value </th>" +
 	"<th> CGST </th><th> SGST </th><th> IGST </th><th> CESS </th><th> Total </th>" +
 			"<th> Remove </th></tr>";
 	for (let i=0;i<myCart.length;i++){
+		myCartTotal += myCart[i].rowTotal;
 		cartItemsHtml += "<tr> <td class='gridLargeCol'> "+myCart[i].inventoryDesc +" : "+myCart[i].modelNo+"	 </td> <td> "+myCart[i].hsn+"	 </td> <td> "+myCart[i].quantity+" </td> <td> "+myCart[i].rate+" </td> <td> "+myCart[i].taxableValue+" </td>" +
 				"<td> "+myCart[i].cgstApplied+" @ "+myCart[i].cgst+"% </td><td> "+myCart[i].sgstApplied+" @ "+myCart[i].sgst+"% </td><td> "+myCart[i].igstApplied+" @ "+myCart[i].igst+"% </td><td> "+myCart[i].cessApplied+" @ "+myCart[i].cess+"% </td>" +
 						"<td> "+myCart[i].rowTotal+" </td> <td><span onclick=deleteFromCart('"+i+"') class='smallIcon'>&#x2718;</span></td> </tr>";
 	}
 	cartItemsHtml += "</table>";
 	document.getElementById("cart").innerHTML = cartItemsHtml;
-	
+	showInvoiceTotal();
 }
 
 function clearManualCartRow(rowItem){
@@ -385,6 +397,7 @@ function calcManualCartRowTotal(rowItem){
 			 }
 			 rowObject.cessApplied = rowObject.cess * rowObject.taxableValue/100;
 			 rowObject.rowTotal =  rowObject.taxableValue +rowObject.cgstApplied+rowObject.sgstApplied+rowObject.igstApplied+rowObject.cessApplied;
+			
 			 document.getElementById("manualCartItem"+rowItem+9).innerHTML =rowObject.rowTotal.toFixed(2);
 			 if (!isNaN(rowObject.rowTotal)){
 				 return rowObject;
@@ -439,7 +452,7 @@ function generateManualCart(){
 				}else {
 					cartItemsHtml += "  class='gridSmallInputbox' ";
 				}
-				cartItemsHtml += " onkeyup='calcManualCartRowTotal("+i+")' type='text' name='manualCartItem"+i+j+"' id='manualCartItem"+i+j+"' />	 </td>";
+				cartItemsHtml += " onkeyup='showInvoiceTotal()' type='text' name='manualCartItem"+i+j+"' id='manualCartItem"+i+j+"' />	 </td>";
 				
 			}
 			
